@@ -18,6 +18,8 @@
 
 define('__ROOT__', dirname(__FILE__));
 
+require_once(__ROOT__ . '/models/UserModel.php');
+
 session_start();
 
 class Dispatcher
@@ -35,8 +37,12 @@ class Dispatcher
     {
         switch ($this->path) {
             
-            case "/test_user":
-                echo User::list();
+            case "/test":
+                echo "Prova lista utenti";
+                $list = UserModel::all();
+                foreach($list as $user){
+                    echo "<br>$user->mail";
+                }
                 break;
             default:
                 echo "404 HTML<br>";
