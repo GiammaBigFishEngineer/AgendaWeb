@@ -1,6 +1,6 @@
 <?php
 
-require_once('config.php');
+require_once('EnvLoader.php');
 
 class DB
 {
@@ -8,18 +8,22 @@ class DB
 
     public static function get()
     {
+        // $config = new EnvLoader();
         if (self::$instance == null) {
-            $uri = "mysql:host=" . Config::$db_host  . ";dbname=" . Config::$db_name;
+            $uri = "mysql:host=" . EnvLoader::getValue("DB_HOST")  . 
+            ";dbname=" . EnvLoader::getValue("DB_NAME") . 
+            ";port=" . EnvLoader::getValue("DB_PORT");
 
             try {
                 self::$instance = new PDO(
                     $uri,
-                    Config::$db_username,
-                    Config::$db_password,
+                    EnvLoader::getValue("DB_USERNAME"),
+                    EnvLoader::getValue("DB_PASSWORD"),
                     array(
                         PDO::ATTR_PERSISTENT => true
                     )
                 );
+
             } catch (PDOException $e) {
                 // Handle this properly
                 throw $e;

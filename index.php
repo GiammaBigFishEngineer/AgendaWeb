@@ -19,8 +19,11 @@
 define('__ROOT__', dirname(__FILE__));
 
 require_once(__ROOT__ . '/models/UserModel.php');
+require_once(__ROOT__ . '/config/EnvLoader.php');
 
 session_start();
+
+$config = new EnvLoader();
 
 class Dispatcher
 {
