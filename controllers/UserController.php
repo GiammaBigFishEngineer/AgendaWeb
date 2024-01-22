@@ -12,12 +12,23 @@ class UserController
         $view->renderLogin();
     }
 
+    public static function showHome(){
+        $view = new UserView();
+        $view->renderHome();
+    }
+
     public static function login() {
         $httpHandler = new HttpHandler;
         $data = $httpHandler->handleRequest();
 
         // $user = new UserModel();
-        UserModel::login($data["password"],$data["email"]);
+        try {
+            UserModel::login($data["password"], $data["email"]);
+            header("Location: /");
+        } catch (Exception $e) {
+            $_SESSION["error"] = $e->getMessage();
+            header("Location: /login");
+        }
     }
 
     public static function create($email, $password, $role = "Utente") {

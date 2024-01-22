@@ -13,4 +13,10 @@ class UserView extends BaseView
             'action' => '/login',
         ]);
     }
+
+    public function renderHome()
+    {
+        echo $this->twig->render('dashboard/home.html.twig', [
+        ]);
+    }
 }

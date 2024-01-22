@@ -46,15 +46,10 @@ class UserModel extends BaseModel
                 // Crea una sessione o imposta un cookie per mantenere l'autenticazione
                 
                 // $_SESSION['email'] = $email;
-                $_SESSION['email'] = $email;
+                $user = UserModel::whereEmail($email);
+
+                $_SESSION['user'] = $user;
                 $_SESSION['loggedIn'] = true;
-                //aggiorno db per segnare l'utente loggato
-                $query = "UPDATE Users SET loggedIn = :loggedIn  WHERE email = :email";
-                $sth = DB::get()->prepare($query);
-                $sth->execute([
-                    'email' => $email,
-                    'loggedIn'=> 1,
-                ]);
 
                 // Risponde con un codice di successo e i dati dell'utente
                 
@@ -64,16 +59,12 @@ class UserModel extends BaseModel
                 // Autenticazione non riuscita
                 // Risponde con un codice di errore
                 http_response_code(401);
-                $message = "Password non corretta";
-
-                 //header("Location: "."");
+                throw new Exception("Password non corretta");
             }
         } else {
             // Autenticazione non riuscita
             // Risponde con un codice di errore
-            http_response_code(401);
-            $message = "Email non esistente";
-            $_SESSION['message_error'] = $message;
+            throw new Exception("Email non esistente");
         }
     }  
 
