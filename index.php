@@ -17,8 +17,10 @@
 */
 
 define('__ROOT__', dirname(__FILE__));
+define('__BASEURL__', (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]");
 
 require_once(__ROOT__ . '/models/UserModel.php');
+require_once(__ROOT__ . '/controllers/UserController.php');
 require_once(__ROOT__ . '/config/EnvLoader.php');
 
 session_start();
@@ -35,6 +37,14 @@ class Dispatcher
         $this->method = $_SERVER["REQUEST_METHOD"];
         $this->path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
     }
+    
+    function isRoute(string $method, string $route, array ...$handlers): int
+    {
+        global $params;
+        // $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+        $route_rgx = preg_replace('#:(\w+)#','(?<$1>(\S+))', $route);
+        return preg_match("#^$route_rgx$#", $this->path, $params);
+    }
 
     public function dispatch()
     {
@@ -46,6 +56,9 @@ class Dispatcher
                 foreach($list as $user){
                     echo "<br>$user->mail";
                 }
+                break;
+            case "/login":
+                UserController::showLogin();
                 break;
             default:
                 echo "404 HTML<br>";
