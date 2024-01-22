@@ -19,7 +19,8 @@ class BaseModel
     public function __construct(array $properties = array())
     {
         foreach ($this->_fields as $field)
-            $this->_data[$field] = $properties[$field];
+            if(isset($properties[$field]))
+                $this->_data[$field] = $properties[$field];
     }
 
     public function __set(string $property, $value)
