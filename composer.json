@@ -5,7 +5,7 @@
         "dazet/type-utils": "^0.2.0",
         "performing/twig-components": "^0.5.3",
         "sabre/http": "^7.0",
-        "symfony/console": "^7.0"
+        "symfony/console": "v6.4.2"
     }
 
 }
