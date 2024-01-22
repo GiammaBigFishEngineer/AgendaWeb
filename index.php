@@ -10,7 +10,7 @@
     error_reporting(E_ALL);
 */
 /*
-    ESempio di routing:
+    Esempio di routing:
     case '/lista_clienti':
         LeadController::list();
         break;
@@ -48,23 +48,44 @@ class Dispatcher
 
     public function dispatch()
     {
-        switch ($this->path) {
-            
-            case "/test":
-                echo "Prova lista utenti";
-                $list = UserModel::all();
-                foreach($list as $user){
-                    echo "<br>$user->mail";
-                }
-                break;
-            case "/login":
-                UserController::showLogin();
-                break;
-            default:
-                echo "404 HTML<br>";
-                echo $this->path;
-                break;
+        if(isset($_SESSION["loggedIn"])) {
+            switch ($this->path) {
+                case "/":
+                    UserController::showHome();
+                    break;
+                case "/logout":
+                    session_unset();
+                    header("Location: /login");
+                    break;
+                default:
+                    echo "404 HTML<br>";
+                    echo $this->path;
+                    break;
+            }
+        } else {
+            switch ($this->path) {
+                case "/test":
+                    echo "Prova lista utenti";
+                    $list = UserModel::all();
+                    foreach($list as $user){
+                        echo "<br>$user->email";
+                    }
+                    break;
+                case "/login":
+                    if($this->method == "POST"){
+                        UserController::login();
+                    } else if ($this->method == "GET"){
+                        UserController::showLogin();
+                    }
+                    break;
+                default:
+                    echo "404 HTML<br>";
+                    echo $this->path;
+                    break;
+            }
         }
+
+
     }
 }
 
