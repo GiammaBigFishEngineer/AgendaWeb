@@ -15,11 +15,19 @@ class UserModel extends BaseModel
     public static string $nome_tabella = 'Users';
     protected array $_fields = [
         "id",
-        "mail",
+        "email",
         "password",
         "ruolo",
     ];
 
+    public array $hidden_fields = [
+        "password"
+    ];
+
+    public static function whereEmail(string $email): ?UserModel {
+        $results = UserModel::where(array("email" => $email));
+        return $results[0] ?? null;
+    }
 
     public static function login($password,$email) {
         // Query per recuperare l'hash della password dal database
@@ -36,6 +44,8 @@ class UserModel extends BaseModel
             if (password_verify($password, $password_hash)) {
                 // Autenticazione riuscita
                 // Crea una sessione o imposta un cookie per mantenere l'autenticazione
+                
+                // $_SESSION['email'] = $email;
                 $_SESSION['email'] = $email;
                 $_SESSION['loggedIn'] = true;
                 //aggiorno db per segnare l'utente loggato
