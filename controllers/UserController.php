@@ -34,6 +34,10 @@ class UserController
     public static function create($email, $password, $role = "Utente") {
         $user = new UserModel();
 
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new Exception("Formato email non valido");
+        }
+
         if(UserModel::whereEmail($email)){
             throw new Exception("Questa email è stata già utilizzata");
         }
