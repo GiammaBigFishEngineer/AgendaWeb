@@ -78,6 +78,9 @@ class Dispatcher
                         UserController::showLogin();
                     }
                     break;
+                case "/":
+                    header("Location: /login");
+                    break;
                 default:
                     echo "404 HTML<br>";
                     echo $this->path;
