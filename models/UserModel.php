@@ -1,6 +1,7 @@
 <?php
 
 require_once('BaseModel.php');
+require_once(__ROOT__ . '/traits/JsonSerializable.php');
 
 /*
 Questo user model definsice una linea generale sulla realizazzione User
@@ -10,8 +11,9 @@ partire dall'index.php anche se l'utente non è loggato. I dati dell'utente sara
 dalla sessione.
 Signup Control controlla la validità della registrazione.
 */
-class UserModel extends BaseModel
+class UserModel extends BaseModel implements JsonSerializable 
 {
+    use JsonSerializableTrait;
     public static string $nome_tabella = 'Users';
     protected array $_fields = [
         "id",

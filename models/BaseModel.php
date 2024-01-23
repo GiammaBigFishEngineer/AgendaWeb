@@ -57,6 +57,10 @@ class BaseModel
         $this->_values = class_to_array($this, $props);
     }
 
+    public function getData() {
+        return $this->_data;
+    }
+
     public function save(): int
     {
         $this->_prepare();
@@ -136,8 +140,8 @@ class BaseModel
             'id' => $id,
         ]);
         $row = $sth->fetch();
-
-        return new static($row);
+        
+        return new static(($row == false) ? [] : $row);
     }
 
     public static function delete(int $id): void

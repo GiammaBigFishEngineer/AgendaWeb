@@ -1,12 +1,14 @@
 <?php
+require_once('BaseController.php');
 
 require_once(__ROOT__ . '/models/UserModel.php');
 require_once(__ROOT__ . '/views/UserView.php');
 
 require_once __ROOT__ . "/utils/HttpHandler.php";
 
-class UserController
+class UserController extends BaseController
 {
+    protected static $model = UserModel::class;
     public static function showLogin(){
         $view = new UserView();
         $view->renderLogin();
@@ -35,11 +37,11 @@ class UserController
         $user = new UserModel();
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new Exception("Formato email non valido");
+            throw new Exception("Email format not valid");
         }
 
         if(UserModel::whereEmail($email)){
-            throw new Exception("Questa email è stata già utilizzata");
+            throw new Exception("Email has already been registered");
         }
 
         $user->email = $email;

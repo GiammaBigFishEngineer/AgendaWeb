@@ -38,7 +38,7 @@ class Dispatcher
         $this->path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
     }
     
-    function isRoute(string $method, string $route, array ...$handlers): int
+    public function isRoute(string $method, string $route, array ...$handlers): int
     {
         global $params;
         // $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
@@ -90,6 +90,35 @@ class Dispatcher
 
 
     }
+
+
+    function json(mixed $data)
+    {
+      header('Content-Type: application/json');
+      echo json_encode($data);
+      exit;
+    }
+
+    // public function dispatch(){
+    //     (match(1) {
+    //         $this->isRoute('GET', '/') => function () {
+    //             $this->json(['msg' => 'Hello!']);
+    //         },
+    //         $this->isRoute('POST', '/api/posts') => function () {
+    //             $this->json(['msg' => 'Created post']);
+    //         },
+    //         $this->isRoute('GET', '/api/posts/:id') => function () {
+    //           global $params;
+    //           $this->json(['id' => $params['id']]);
+    //         },
+    //         $this->isRoute('GET', '/api/users/:id') => function () {
+    //             global $params;
+    //             echo(UserController::get($params['id']));
+    //             // $this->json(['id' => ]);
+    //           },
+    //         default => fn() => $this->json(['err' => 'Route not found!'])
+    //     })();        
+    // }
 }
 
 $dispatcher = new Dispatcher();
