@@ -32,12 +32,6 @@ class UserController
     }
 
     public static function create($email, $password, $role = "Utente") {
-        // $httpHandler = new HttpHandler;
-        // $data = $httpHandler->handleRequest();
-
-        // $user = new UserModel();
-        // UserModel::login($data["password"], $data["email"]);
-
         $user = new UserModel();
 
         if(UserModel::whereEmail($email)){
@@ -46,7 +40,7 @@ class UserController
 
         $user->email = $email;
         $user->password = password_hash($password, PASSWORD_DEFAULT);
-        $user->role = $role;
+        $user->ruolo = $role;
 
         $user->save();
     }
