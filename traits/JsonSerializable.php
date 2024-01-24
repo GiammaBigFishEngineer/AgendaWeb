@@ -6,7 +6,7 @@ trait JsonSerializableTrait {
         $obj_vars = $this->getData();
 
         if ($obj_vars != null) {
-            $data = array_diff_key($obj_vars, array_flip($this->hidden_fields)); 
+            $data = isset($this->hidden_fields) ? array_diff_key($obj_vars, array_flip($this->hidden_fields)) : $obj_vars; 
             return $data;
         }
 
