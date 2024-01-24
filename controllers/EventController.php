@@ -1,4 +1,5 @@
 <?php
+require_once('BaseController.php');
 
 require_once(__ROOT__ . '/models/EventModel.php');
 
@@ -6,8 +7,9 @@ require_once __ROOT__ . "/utils/HttpHandler.php";
 
 use Carbon\Carbon;
 
-class EventController
+class EventController extends BaseController
 {
+    protected static $model = EventModel::class;
     public static function create($title, $arrival, $departure, $leader, $email, $phone, $notes) {
         $event = new EventModel();
         
@@ -24,7 +26,6 @@ class EventController
         if (!Carbon::parse($departure)->lt(Carbon::parse($arrival))) {
             // echo '$departure is not before $arrival.';
             throw new Exception('The departure cannot be before the arrival.');
-
         }
 
         // Set the properties of the event

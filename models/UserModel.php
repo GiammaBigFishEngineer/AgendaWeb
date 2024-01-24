@@ -72,7 +72,6 @@ class UserModel extends BaseModel implements JsonSerializable
 
     public static function signup_control ($email): int
     {
-        
         $control_qr = "SELECT * FROM Users WHERE email = :email";
         $stmt = DB::get()->prepare($control_qr);
         $stmt->execute([

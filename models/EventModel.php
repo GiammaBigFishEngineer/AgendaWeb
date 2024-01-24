@@ -2,8 +2,11 @@
 
 require_once('BaseModel.php');
 
-class EventModel extends BaseModel
+require_once(__ROOT__ . '/traits/JsonSerializable.php');
+
+class EventModel extends BaseModel implements JsonSerializable
 {
+    use JsonSerializableTrait;
     public static string $nome_tabella = 'Prenotazioni';
     protected array $_fields = [
         "id",
