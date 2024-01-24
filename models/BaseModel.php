@@ -80,6 +80,14 @@ class BaseModel
         }
     }
 
+    public function update(array $properties = array()){
+        foreach($properties as $key => $val) {
+            if($val !== null && $val !== "") {
+                $this->$key = $val;
+            }
+        }
+    }
+
     public static function all(): array
     {
         $sql = 'SELECT * FROM ' . static::$nome_tabella;
