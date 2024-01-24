@@ -1,4 +1,4 @@
-<form class="prenotazione form">
+<form class="prenotazione form" id="form-prenotazione">
     <input type="hidden" name="id">
     
     <div class="mb-3">
@@ -9,12 +9,12 @@
 
     <div class="row">
         <div class="col-md-6 mb-3">
-            <label for="arrivo" class="form-label">Data di arrivo:</label>
-            <input type="date" class="form-control" name="arrivo">
-        </div>
-        <div class="col-md-6 mb-3">
             <label for="partenza" class="form-label">Data di partenza:</label>
             <input type="date" class="form-control" name="partenza">
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="arrivo" class="form-label">Data di arrivo:</label>
+            <input type="date" class="form-control" name="arrivo">
         </div>
     </div>
 
@@ -38,5 +38,5 @@
         <textarea class="form-control" name="note"></textarea>
     </div>
 
-    <input type="submit" class="btn btn-primary float-end" value="Conferma">
+    <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Conferma">
 </form>

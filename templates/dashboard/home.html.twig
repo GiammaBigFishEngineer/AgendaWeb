@@ -9,8 +9,8 @@
 {# <div id="calendar"></div>
 <script src="script.js"></script> #}
 
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
-    <script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+<script>
 
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
@@ -29,20 +29,20 @@
             },
             eventClick: function(info) {
                 // Function to execute when an event is clicked
-                alert('Clicked on: ' + info.event.title);
+                // alert('Clicked on: ' + info.event.title + "\nID: " + info.event.id);
+
+                fillEvent(info.event.id);
             },
             events: [
                 {
-                    title: 'Event 1',
+                    id: 1,
+                    title: 'Cliccami (id 1)',
                     start: '2024-01-23'
                 },
                 {
-                    title: 'Event 0',
-                    start: '2024-01-23'
-                },
-                {
-                    title: 'Event 3',
-                    start: '2024-01-23'
+                    id: 2,
+                    title: 'Cliccami (id 2)',
+                    start: '2024-01-24'
                 },
             ],
             datesSet: function(arg) {
@@ -54,7 +54,7 @@
         calendar.render();
     });
 
-    </script>
+</script>
 
 <div class="container">
     <div class="row">
@@ -69,4 +69,12 @@
         </div>
     </div>
 </div>
+
+
+{% set script_location = url ~ "/templates/scripts/" %}
+
+<script src={{ script_location ~ "cache.js" }}></script>
+<script src={{ script_location ~ "utils.js" }}></script>
+<script src={{ script_location ~ "calendar.js" }}></script>
+
 {% endblock content %}
