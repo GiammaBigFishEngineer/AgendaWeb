@@ -19,7 +19,8 @@
             locale: "it",
             themeSystem: 'bootstrap5',
             initialView: 'dayGridMonth',
-
+            firstDay: 1,
+            showNonCurrentDates: false,
             dateClick: function(info) {
                 alert('Clicked on: ' + info.dateStr);
                 alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
@@ -27,30 +28,41 @@
                 // change the day's background color just for fun
                 info.dayEl.style.backgroundColor = 'red';
             },
+            // events: function(info, successCallback, failureCallback){
+            //     alert(info)
+
+            //     var start = info.startStr;
+            //     var end = info.endStr;
+                
+            //     axios.get('/api/events/date/?start=' + start + '&end=' + end)
+            //     // .then(response => response.json())
+            //     .then(data => {
+            //         console.log(data);
+            //         successCallback(data);
+            //     })
+            //     .catch(error => {
+            //         failureCallback(error.message);
+            //     });
+            // },
             eventClick: function(info) {
+
+                // console.log(info)
+
                 // Function to execute when an event is clicked
                 // alert('Clicked on: ' + info.event.title + "\nID: " + info.event.id);
 
                 fillEvent(info.event.id);
             },
-            events: [
-                {
-                    id: 1,
-                    title: 'Cliccami (id 1)',
-                    start: '2024-01-23'
-                },
-                {
-                    id: 2,
-                    title: 'Cliccami (id 2)',
-                    start: '2024-01-24'
-                },
-            ],
-            datesSet: function(arg) {
-                alert('The new date range is: ' + arg.start + ' to ' + arg.end);
-            },
+            //https://fullcalendar.io/docs/events-function
+            events: "/api/events/date/",
+            // datesSet: function(arg) {
+            //     console.log(arg);
+            //     alert('The new date range is: ' + arg.start + ' to ' + arg.end);
+            // },
             aspectRatio: 1.5,
             handleWindowResize: true,
         });
+
         calendar.render();
     });
 
