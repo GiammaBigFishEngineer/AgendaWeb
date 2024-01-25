@@ -22,25 +22,22 @@ function submitEventForm(event){
     var formData = new FormData(form);
     var newEvent = formData.get('id') == null ? true : false;
 
+    var url = null;
+
     if (newEvent) {
-        axios.post('/api/events', formData, { headers })
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+        url = '/api/events';
     } else {
         var id = formData.get('id');
-
-        axios.post('/api/event/' + id, formData, { headers })
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+        url = '/api/event/' + id;
     }
+
+    axios.post(url, formData, { headers })
+    .then(function (response) {
+        console.log(response);
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
 
     clearForm(form);
 }
