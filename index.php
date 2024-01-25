@@ -62,6 +62,11 @@ class Dispatcher
                 //         EventController::create();
                 //     }
                 // },
+                "/api/events/date/" => function ($params) {
+                    if($this->method == RequestMethod::GET) {
+                        EventController::byDate();
+                    }
+                },
                 "/api/event/:id" => function($params) {
                     $eventId = $params['id'];
                     if ($this->method == RequestMethod::GET) {
@@ -138,7 +143,7 @@ class Dispatcher
             }
         }
 
-        return $params; 
+        return $params;
     }
     
 

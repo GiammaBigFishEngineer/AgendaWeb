@@ -40,4 +40,30 @@ class EventController extends BaseController
         // Save the event to the database
         $event->save();
     }
+
+    public static function byDate(){
+        $httpHandler = new HttpHandler;
+        $data = $_GET;
+
+        $start = Carbon::parse($data["start"]);
+        $end = Carbon::parse($data["end"]);
+
+        $events = EventModel::getByDates($start, $end);
+        
+        $keys = ["title", "start"];
+
+        foreach ($events as &$event) {
+            $event->title = $event->titolo;
+            $event->start = $event->partenza;
+
+            foreach ($event as $key => $value) {
+                if (!in_array($key, $keys)) {
+                    unset($event->$key);
+                }
+            }
+        }    
+        
+        $httpHandler->sendResponse(body: $events, status: 200);
+
+    }
 }
