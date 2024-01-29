@@ -59,33 +59,46 @@ function clearForm(form, exceptions = []){
  * Fills a form with data provided.
  *
  * @param {Object} data - the data to fill the form with
- * @param {string} form_id - the id of the form to be filled
+ * @param {string | string[]} form_ids - the id(s) of the form(s) to be filled
  */
-function fillForm(data, form_id) {
-    var form = document.getElementById(form_id);
-    var formElements = form.elements;
-  
-   for (let i = 0; i < formElements.length; i++) {
-        const element = formElements[i];
-        const name = element.getAttribute('name');
-  
-    if (name && data.hasOwnProperty(name)) {
-        if (element.nodeName === 'SELECT') {
-            const selectedValue = data[name];
-            for (let j = 0; j < element.options.length; j++) {
-            if (element.options[j].value == selectedValue) {
-                element.selectedIndex = j;
-                break;
-            }
-        }
-            } else if (element.type === 'date') {
-                date = new Date(data[name]);
-                element.valueAsDate = date;
-            } else {
-                element.value = data[name];
-            }
-        }
+function fillForm(data, form_ids) {
+    if (!Array.isArray(form_ids)) {
+        form_ids = [form_ids];
     }
+
+    form_ids.forEach(form_id => {
+        var form = document.getElementById(form_id);
+
+        //TODO: If it's not a form, get all the elements with a querySelectorAll
+        var formElements
+        if (form.nodeName == 'FORM') {
+            formElements = form.elements;
+        } else {
+            formElements = document.querySelectorAll(`#${form_id} input, #${form_id} select, #${form_id} textarea`);
+        }
+      
+       for (let i = 0; i < formElements.length; i++) {
+            const element = formElements[i];
+            const name = element.getAttribute('name');
+      
+        if (name && data.hasOwnProperty(name)) {
+            if (element.nodeName === 'SELECT') {
+                const selectedValue = data[name];
+                for (let j = 0; j < element.options.length; j++) {
+                if (element.options[j].value == selectedValue) {
+                    element.selectedIndex = j;
+                    break;
+                }
+            }
+                } else if (element.type === 'date') {
+                    date = new Date(data[name]);
+                    element.valueAsDate = date;
+                } else {
+                    element.value = data[name];
+                }
+            }
+        }
+    });
 }
 
 /**
@@ -114,4 +127,54 @@ function getHighestId(prefix) {
     }
 
     return [highestId, highestElement];
+}
+
+/**
+ * Hides the modal with the given id if it exists.
+ *
+ * @param {string} id - The id of the modal to hide
+ * @return {void} 
+ */
+function hideModal(id) {
+    var node = document.getElementById(id);
+
+    if(node instanceof HTMLElement){
+        var modal = bootstrap.Modal.getInstance(node);
+
+        if(modal){
+            modal.hide();
+        }
+        
+    }
+}
+
+function showModal(id) {
+    var node = document.getElementById(id);
+
+    if(node instanceof HTMLElement){
+        var modal = bootstrap.Modal.getInstance(node);
+
+        if(modal){
+            modal.show();
+        } else {
+            var modal = new bootstrap.Modal(node);
+            modal.show();
+        }
+        
+    }
+}
+
+function disableForm(form, type) {
+    if (form instanceof HTMLElement) {
+    } else {
+        form = document.getElementById(form)
+    }
+
+    form.querySelectorAll('input, textarea, select').forEach(element => {
+        if (type == 1) {
+            element.disabled = true;
+        } else if (type == 2) {
+            element.readOnly = true;
+        }
+    });
 }

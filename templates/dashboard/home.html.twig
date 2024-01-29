@@ -6,9 +6,6 @@
   You are now logged in!
 </div>
 
-{# <div id="calendar"></div>
-<script src="script.js"></script> #}
-
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
 <script>
 
@@ -68,20 +65,62 @@
 
 </script>
 
+<div class="row">
+    <div class="col-lg-12 mb-3">
+        <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#newEventModal">Aggiungi Prenotazione</button>
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
-        <div class="col-lg-8 mb-3"> <!-- Use col-lg-8 for larger screens -->
+        <div class="col-lg-8 mb-3">
             <div id='calendar'></div>
         </div>
-        <div class="col-lg-4 mb-3"> <!-- Use col-lg-4 for larger screens -->
-            {# <div class="p-4 bg-light"> #}
-            <div style="background-color:#EEEEEE; padding: 4px; border-radius: 10px">
-                <x-forms.prenotazione></x-forms.prenotazione>
+        <div class="col-lg-4 mb-3">
+            <div style="background-color:#EEEEEE; padding: 4px; border-radius: 10px; overflow: hidden;">
+                <x-forms.prenotazione class="short" id="form-prenotazione-summary" class="readonly-form" short type="div">
+                    <button class="btn btn-primary float-end" id="open-btn" data-bs-toggle="modal" data-bs-target="#viewEventModal" disabled>Visualizza <i class="bi bi-eye-fill"></i></button>
+                    {# <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Conferma"> #}
+
+                </x-forms.prenotazione>
             </div>
         </div>
     </div>
 </div>
 
+<div class="modal fade" id="viewEventModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Prenotazione</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body">
+                <x-forms.prenotazione id="form-prenotazione" type="form">
+                    <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Conferma">
+                    <button class="btn btn-danger" onclick="deleteEvent()"><i class="bi bi-trash"></i></button>
+                </x-forms.prenotazione>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newEventModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Aggiungi Prenotazione</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <x-forms.prenotazione id="form-new-prenotazione" type="form">
+                    <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Conferma">    
+                </x-forms.prenotazione>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% set script_location = url ~ "/templates/scripts/" %}
 
@@ -89,4 +128,16 @@
 <script src={{ script_location ~ "utils.js" }}></script>
 <script src={{ script_location ~ "calendar.js" }}></script>
 
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+    var forms = document.querySelectorAll('.readonly-form');
+
+    forms.forEach(form => {
+        disableForm(form, 2);
+    });
+
+});
+
+</script>
 {% endblock content %}

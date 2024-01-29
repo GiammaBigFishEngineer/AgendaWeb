@@ -6,7 +6,11 @@ async function fillEvent(id) {
         var cachedData = await apiCache.getCachedOrFetch('/api/event/' + id);
         
         if (cachedData) {
-            fillForm(cachedData, 'form-prenotazione');
+            fillForm(cachedData, ['form-prenotazione', 'form-prenotazione-summary']);
+
+            var button = document.getElementById('form-prenotazione-summary').querySelector('#open-btn');
+            button.removeAttribute('readonly');
+            button.removeAttribute('disabled');
         } else {
             console.error('Failed to retrieve cached data or fetch from API');
         }
@@ -17,10 +21,10 @@ async function fillEvent(id) {
 
 function submitEventForm(event){
     event.preventDefault();
-    var form = document.getElementById('form-prenotazione');
+    var form = event.target.closest('.form');//document.getElementById('form-prenotazione');
     
     var formData = new FormData(form);
-    var newEvent = formData.get('id') == null ? true : false;
+    var newEvent = formData.get('id') === null || formData.get('id') === '';
 
     var url = null;
 
@@ -39,5 +43,15 @@ function submitEventForm(event){
         console.log(error);
     });
 
-    clearForm(form);
+    if (newEvent) {
+        clearForm(form);
+    } else {
+        fillEvent(id);
+    }
+
+    hideModal(form.closest(".modal").id);
+}
+
+function deleteEvent(event) {
+    
 }
