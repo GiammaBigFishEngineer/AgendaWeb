@@ -1,5 +1,7 @@
 <?php
 require_once('BaseController.php');
+require_once('FileController.php');
+
 
 require_once(__ROOT__ . '/models/EventModel.php');
 
@@ -64,6 +66,38 @@ class EventController extends BaseController
         }    
         
         $httpHandler->sendResponse(body: $events, status: 200);
+    }
 
+    public static function getFiles(?int $event_id = null, ?int $file_id = null){
+        $httpHandler = new HttpHandler;
+        $files = null;
+
+        if($event_id != null) {
+            $event = EventModel::get($event_id);
+        }
+        
+        $fileController = new FileController($event);
+
+        $files = $fileController->getFiles($file_id);
+        
+        $httpHandler->sendResponse($files, 200);
+        // return $fileController->getFiles($event_id, $file_id);
+    }
+
+    public static function addFile(?int $event_id = null, ?int $file_id = null)
+    {
+        $event = EventModel::get($event_id);
+
+        $fileController = new FileController($event);
+        
+        $file = $fileController->addFile($event_id, $file_id);
+        
+        if ($file) {
+            $httpHandler = new HttpHandler;
+            $httpHandler->sendResponse($file, 200);
+        } else {
+            $httpHandler = new HttpHandler;
+            $httpHandler->sendResponse("Failed to add file", 500);
+        }
     }
 }
