@@ -54,14 +54,24 @@ class Dispatcher
     {
         if(isset($_SESSION["loggedIn"])) {
             $routeHandlers = [
-                // "/api/events" => function($params) {
-                //     if ($this->method == RequestMethod::GET) {
-                //         EventController::list();
-                //     }
-                //     if ($this->method == RequestMethod::POST) {
-                //         EventController::create();
-                //     }
-                // },
+                "/api/event/:id/file/:file_id" => function($params) {
+                    if($this->method == RequestMethod::GET) {
+                        // EventController::getFiles($params['id']);
+                    }
+                },
+                "/api/events/:id/files" => function($params) {
+                    if($this->method == RequestMethod::GET) {
+                        EventController::getFiles($params['id']);
+                    }
+                },
+                "/api/events" => function($params) {
+                    // if ($this->method == RequestMethod::GET) {
+                    //     EventController::list();
+                    // }
+                    if ($this->method == RequestMethod::POST) {
+                        EventController::save();
+                    }
+                },
                 "/api/events/date/" => function ($params) {
                     if($this->method == RequestMethod::GET) {
                         EventController::byDate();
@@ -91,6 +101,11 @@ class Dispatcher
             $routeHandlers = [
                 "/" => function($params) {
                     header("Location: /login");
+                },
+                "/api/events/:id/files" => function($params) {
+                    if($this->method == RequestMethod::GET) {
+                        EventController::getFiles($params['id']);
+                    }
                 },
                 "/login" => function($params) {
                     if ($this->method == RequestMethod::POST) {
@@ -131,6 +146,11 @@ class Dispatcher
     
         $params = [];
     
+        //If the parameter count is not the same
+        if (count($pathSegments) !== count($patternSegments)) {
+            return null;
+        }
+
         //Per ogni segmento del path attuale
         foreach ($pathSegments as $index => $segment) {
             //Se questa parte del pattern è un parametro
