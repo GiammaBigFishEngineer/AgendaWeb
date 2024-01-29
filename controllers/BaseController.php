@@ -52,13 +52,15 @@ class BaseController
 
     public static function save(?int $id = null)
     {
-        //TODO: add the responses
         $httpHandler = new HttpHandler;
         $data = $httpHandler->handleRequest();
 
-        $res = null;
+        //Remove empty value strings
+        $data = array_filter($data, function($value) {
+            return $value !== '';
+        });
 
-        //if id == null create a new object
+        $res = null;
 
         if ($_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
             try {
