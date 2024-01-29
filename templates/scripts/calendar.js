@@ -53,5 +53,20 @@ function submitEventForm(event){
 }
 
 function deleteEvent(event) {
+    event.preventDefault();
     
+    form = event.target.closest(".form");
+    var formData = new FormData(form);
+
+    var id = formData.get('id');
+
+    axios.delete('/api/event/' + id, { headers })
+    .then(function (response) {
+        console.log(response);
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+
+    hideModal(form.closest(".modal").id);
 }
