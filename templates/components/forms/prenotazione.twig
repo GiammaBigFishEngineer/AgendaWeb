@@ -1,4 +1,8 @@
-<form class="prenotazione form" id="form-prenotazione">
+{# <pre>
+    {{ dump() }}
+</pre> #}
+{# class="prenotazione form" #}
+<{{type}} {{ attributes.merge({ class: 'prenotazione form' }) }}  id="{{id}}">
     <input type="hidden" name="id">
     
     <div class="mb-3">
@@ -17,7 +21,8 @@
             <input type="date" class="form-control" name="arrivo">
         </div>
     </div>
-
+    
+    {% if short is not defined %}
     <div class="mb-3">
         <label for="capo_gruppo" class="form-label">Capo Gruppo:</label>
         <input type="text" class="form-control" name="capo_gruppo">
@@ -37,6 +42,7 @@
         <label for="note" class="form-label">Note:</label>
         <textarea class="form-control" name="note"></textarea>
     </div>
+    {% endif %}
 
-    <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Conferma">
-</form>
+    {{ slot }}
+</{{type}}>
