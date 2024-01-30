@@ -58,10 +58,17 @@ class Dispatcher
                     if($this->method == RequestMethod::GET) {
                         // EventController::getFiles($params['id']);
                     }
+
+                    if($this->method == RequestMethod::DELETE) { 
+                        EventController::deleteFiles($params['id'], $params['file_id']);
+                    }
                 },
-                "/api/events/:id/files" => function($params) {
+                "/api/event/:id/files" => function($params) {
                     if($this->method == RequestMethod::GET) {
                         EventController::getFiles($params['id']);
+                    }
+                    if($this->method == RequestMethod::POST) {
+                        EventController::addFile($params['id']);
                     }
                 },
                 "/api/events" => function($params) {
