@@ -88,7 +88,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="viewEventModal" tabindex="-1" aria-hidden="true">
+<div class="modal modal-lg fade" id="viewEventModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -98,8 +98,15 @@
             
             <div class="modal-body">
                 <x-forms.prenotazione id="form-prenotazione" type="form">
-                    <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Conferma">
+                    <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Modifica">
                     <button class="btn btn-danger" onclick="deleteEvent(event)"><i class="bi bi-trash"></i></button>
+
+                    <x-slot name="second_col">
+                        <h2>Files</h2>
+
+                        <x-forms.file id="fileForm"></x-forms.file>
+                        <x-table.file id="fileTable"></x-table.file>
+                    </x-slot>
                 </x-forms.prenotazione>
             </div>
         </div>
@@ -127,6 +134,7 @@
 <script src={{ script_location ~ "cache.js" }}></script>
 <script src={{ script_location ~ "utils.js" }}></script>
 <script src={{ script_location ~ "calendar.js" }}></script>
+<script src={{ script_location ~ "files.js" }}></script>
 
 <script>
 

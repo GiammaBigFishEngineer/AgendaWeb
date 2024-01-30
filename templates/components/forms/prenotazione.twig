@@ -2,47 +2,57 @@
     {{ dump() }}
 </pre> #}
 {# class="prenotazione form" #}
-<{{type}} {{ attributes.merge({ class: 'prenotazione form' }) }}  id="{{id}}">
-    <input type="hidden" name="id">
-    
-    <div class="mb-3">
-        <label for="titolo" class="form-label">Titolo:</label>
-        <input type="text" class="form-control" id="titolo" name="titolo" aria-describedby="titleHelp">
-        {# <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> #}
+<div class="row">
+    <div class="col border-end mx-1">
+        <{{type}} {{ attributes.merge({ class: 'prenotazione form' }) }}  id="{{id}}">
+            <input type="hidden" name="id">
+            
+            <div class="mb-3">
+                <label for="titolo" class="form-label">Titolo:</label>
+                <input type="text" class="form-control" id="titolo" name="titolo" aria-describedby="titleHelp">
+                {# <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> #}
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="partenza" class="form-label">Data di partenza:</label>
+                    <input type="date" class="form-control" name="partenza">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="arrivo" class="form-label">Data di arrivo:</label>
+                    <input type="date" class="form-control" name="arrivo">
+                </div>
+            </div>
+            
+            {% if short is not defined %}
+            <div class="mb-3">
+                <label for="capo_gruppo" class="form-label">Capo Gruppo:</label>
+                <input type="text" class="form-control" name="capo_gruppo">
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" class="form-control" name="email">
+            </div>
+
+            <div class="mb-3">
+                <label for="telefono" class="form-label">Telefono:</label>
+                <input type="tel" class="form-control" name="telefono" placeholder="+39 3xx xxxxxxx">
+            </div>
+
+            <div class="mb-3">
+                <label for="note" class="form-label">Note:</label>
+                <textarea class="form-control" name="note"></textarea>
+            </div>
+            {% endif %}
+
+            {{ slot }}
+        </{{type}}>
     </div>
 
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label for="partenza" class="form-label">Data di partenza:</label>
-            <input type="date" class="form-control" name="partenza">
-        </div>
-        <div class="col-md-6 mb-3">
-            <label for="arrivo" class="form-label">Data di arrivo:</label>
-            <input type="date" class="form-control" name="arrivo">
-        </div>
-    </div>
-    
-    {% if short is not defined %}
-    <div class="mb-3">
-        <label for="capo_gruppo" class="form-label">Capo Gruppo:</label>
-        <input type="text" class="form-control" name="capo_gruppo">
-    </div>
-
-    <div class="mb-3">
-        <label for="email" class="form-label">Email:</label>
-        <input type="email" class="form-control" name="email">
-    </div>
-
-    <div class="mb-3">
-        <label for="telefono" class="form-label">Telefono:</label>
-        <input type="tel" class="form-control" name="telefono" placeholder="+39 3xx xxxxxxx">
-    </div>
-
-    <div class="mb-3">
-        <label for="note" class="form-label">Note:</label>
-        <textarea class="form-control" name="note"></textarea>
+    {% if second_col is defined %}
+    <div class="col mx-1">
+        {{ second_col }}
     </div>
     {% endif %}
-
-    {{ slot }}
-</{{type}}>
+</div>
