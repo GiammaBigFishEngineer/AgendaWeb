@@ -23,14 +23,21 @@ class BaseController
                 $etag = md5($res);
     
                 if (isset($cachedEtag) && $cachedEtag === $etag) {
+                    //Cache is still correct
                     $httpHandler->sendResponse(body: null, status: 304, headers: [ "ETag" => $etag ]);
                 } else {
+                    //Cache is not correct
                     $httpHandler->sendResponse(body: $res, headers: [ 'Content-Type' => 'application/json; charset=utf-8', "ETag" => $etag ]);
                 }
             } catch (Exception $e) {
                 $httpHandler->sendResponse(body: $res, status: 500);
             }
         }
+    }
+
+    private static function etag(string $json)
+    {
+        return md5($json);
     }
 
     public static function delete(int $id)
