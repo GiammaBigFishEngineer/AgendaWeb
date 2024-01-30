@@ -12,6 +12,10 @@ use Carbon\Carbon;
 class EventController extends BaseController
 {
     protected static $model = EventModel::class;
+    
+    //3MB
+    protected static $limits = ["max_files" => 5, "max_size" => 3 * 1024 * 1024];
+
     public static function create($title, $arrival, $departure, $leader, $email, $phone, $notes) {
         $event = new EventModel();
         
@@ -76,28 +80,46 @@ class EventController extends BaseController
             $event = EventModel::get($event_id);
         }
         
-        $fileController = new FileController($event);
+        $fileController = new FileController($event, self::$limits);
 
         $files = $fileController->getFiles($file_id);
         
         $httpHandler->sendResponse($files, 200);
-        // return $fileController->getFiles($event_id, $file_id);
     }
 
     public static function addFile(?int $event_id = null, ?int $file_id = null)
     {
+        $httpHandler = new HttpHandler;
+        $data = $httpHandler->handleRequest();
+
+        $file = (isset($_FILES['file'])) ? $_FILES['file'] : null;
+
         $event = EventModel::get($event_id);
 
-        $fileController = new FileController($event);
-        
-        $file = $fileController->addFile($event_id, $file_id);
-        
-        if ($file) {
-            $httpHandler = new HttpHandler;
-            $httpHandler->sendResponse($file, 200);
-        } else {
-            $httpHandler = new HttpHandler;
+        try {
+            $fileController = new FileController($event, self::$limits);
+            $fileController->addFiles($file, $data);
+
+            $httpHandler->sendResponse("File added successfully", 200);
+        } catch (Exception $e) {
             $httpHandler->sendResponse("Failed to add file", 500);
+        }
+
+    }
+
+    public static function deleteFiles(int $event_id = null, int $file_id = null){
+        $httpHandler = new HttpHandler;
+        // $data = $httpHandler->handleRequest();
+
+        $event = EventModel::get($event_id);
+
+        try {
+            $fileController = new FileController($event, self::$limits);
+            $fileController->deleteFile($file_id);
+
+            $httpHandler->sendResponse("File deleted successfully", 200);
+        } catch (Exception $e) {
+            $httpHandler->sendResponse("Failed to delete file", 500);
         }
     }
 }
