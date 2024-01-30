@@ -45,7 +45,7 @@ function sendFile(event){
     axios.post('/api/event/' + id + '/files', formData, { headers })
     .then(function (response) {
         console.log(response);
-        // clearForm(form)
+        clearForm(form)
         fillEvent(id)
     })
     .catch(function (error) {
@@ -64,7 +64,6 @@ function deleteFile(file_id){
     axios.delete(`/api/event/${id}/file/${file_id}`, { headers })
     .then(function (response) {
         console.log(response);
-        // clearForm(form)
         fillEvent(id)
     })
     .catch(function (error) {
