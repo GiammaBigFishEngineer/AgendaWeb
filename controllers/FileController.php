@@ -4,16 +4,18 @@ require_once(__ROOT__ . '/config/EnvLoader.php');
 require_once(__ROOT__ . "/utils/HttpHandler.php");
 
 require_once(__ROOT__ . "/models/BaseModel.php");
+use Carbon\Carbon;
 
 class FileController
 {
     protected $basePath;
     protected $objPath;
 
-    protected array $limits;
+    protected ?array $limits;
     // protected static $model = BaseModel::class;
 
-    public function __construct($model) {
+    public function __construct($model, ?array $limits = null) {
+        $this->limits = $limits;
         $env_dir = EnvLoader::getValue("FILE_DIR");
 
         if (realpath($env_dir)) {
@@ -29,6 +31,8 @@ class FileController
         if (!file_exists($this->objPath)) {
             mkdir($this->objPath, recursive: true);
         }
+
+        isset($limits) ? $this->limits = $limits : null;
     }
 
     public function getFiles(?string $subfolder = null) {
@@ -45,7 +49,7 @@ class FileController
             foreach ($files as $file) {
                 $documents[] = [
                     'file' => $file,
-                    'link' => $this->objPath . '/' . $file['file']
+                    'link' => $this->objPath . $file['file']
                 ];
             }
         } catch (Exception $e) {
@@ -55,13 +59,77 @@ class FileController
         return $documents;
     }
 
-    public function addFiles($file){
+    public function addFiles($file, $data){
         // $documents = [];
         $fileInfo = new FileInfo($this->objPath);
-        
-        $fileInfo->addFileInfo($file['id'], $file['name'], $file['file'], $file['type'], $file['upload_date']);
-        move_uploaded_file($file["tmp_name"], $this->objPath . $file["name"]);
 
+        if ($file["error"] != 0) {
+            throw new Exception("File not uploaded");
+        }
+        
+        $this->checkFileRequirements($file);
+        
+        if ($file && $data) {
+            if (!isset($data['id'])) {
+                $data['id'] = $fileInfo->getHighestId() + 1;
+            }
+
+            if (!isset($file['type'])) {
+                $file['type'] = "none";
+            }
+
+            if (!isset($data['upload_date'])) {
+                $data['upload_date'] = Carbon::now()->format('Y-m-d H:i:s');
+            }
+
+            $fileInfo->addFileInfo($data['id'], $data['name'], $file['name'], $file['type'], $data['upload_date']);
+            move_uploaded_file($file["tmp_name"], $this->objPath . $file["name"]);
+        } else {
+            throw new Exception("File not uploaded");
+        }
+
+
+    }
+
+    public function deleteFile($id)
+    {
+        $fileInfo = new FileInfo($this->objPath);
+
+        try {
+            $file = $fileInfo->searchFileById($id);
+            $fileInfo->deleteFile($id);
+            unlink($this->objPath . $file["file"]);    
+        } catch (Exception $e) {
+            
+        }
+
+    }
+
+    public function checkFileRequirements($file): void {
+        $fileInfo = new FileInfo($this->objPath);
+
+        // Check the number of files
+        if (isset($this->limits['max_files']) && $fileInfo->fileCount() >= $this->limits['max_files']) {
+            throw new \Exception("Number of files exceeds the limit");
+        }
+    
+        // Check the size of the file
+        if (isset($this->limits['max_size'])) {
+            if ($file['size'] > $this->limits['max_size']) {
+                throw new \Exception("File size exceeds the limit");
+            }
+        }
+    }
+
+    public function deleteParentFolder()
+    {
+        $files = glob($this->objPath . '/*');
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                unlink($file);
+            }
+        }
+        rmdir($this->objPath);
     }
 }
 
@@ -104,6 +172,18 @@ class FileInfo
         return null; // File not found
     }
 
+    public function searchFileById($id)
+    {
+        $fileInfo = $this->readFileInfo();
+        foreach ($fileInfo as $file) {
+            if ($file['id'] === $id) {
+                return $file;
+            }
+        }
+
+        return null; // File not found
+    }
+
     public function addFileInfo($id, $name, $file, $type, $uploadDate)
     {
         $fileInfo = $this->readFileInfo();
@@ -119,11 +199,11 @@ class FileInfo
         $this->saveFileInfo($fileInfo);
     }
 
-    public function deleteFile($fileName)
+    public function deleteFile($id)
     {
         $fileInfo = $this->readFileInfo();
         foreach ($fileInfo as $key => $file) {
-            if ($file['name'] === $fileName) {
+            if ($file['id'] === $id) {
                 unset($fileInfo[$key]);
                 $this->saveFileInfo(array_values($fileInfo)); // Re-index the array
                 return true; // File deleted
@@ -156,5 +236,22 @@ class FileInfo
             ];
         }
         return $files;
+    }
+
+    public function getHighestId()
+    {
+        $fileInfo = $this->readFileInfo();
+        $highestId = 0;
+        foreach ($fileInfo as $file) {
+            $highestId = max($highestId, $file['id']);
+        }
+
+        return $highestId;
+    }
+
+    public function fileCount()
+    {
+        $fileInfo = $this->readFileInfo();
+        return count($fileInfo);
     }
 }
