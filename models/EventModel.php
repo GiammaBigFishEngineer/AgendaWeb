@@ -2,6 +2,8 @@
 
 require_once('BaseModel.php');
 
+require_once(__ROOT__ . '/controllers/FileController.php');
+
 require_once(__ROOT__ . '/traits/JsonSerializable.php');
 
 class EventModel extends BaseModel implements JsonSerializable
@@ -19,6 +21,17 @@ class EventModel extends BaseModel implements JsonSerializable
         "note",
         "numero_allegati",
     ];
+
+    public static function delete(int $id): void
+    {
+        $event = self::get($id);
+
+        // Delete documents
+        $fileController = new FileController($event);
+        $fileController->deleteParentFolder();
+
+        parent::delete($id);
+    }
 
     public static function getByDates($start, $end){
         $query = "SELECT * FROM " . static::$nome_tabella  . ` WHERE partenza BETWEEN {$start} AND {$end}`;
