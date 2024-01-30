@@ -10,7 +10,7 @@ class DB
     {
         // $config = new EnvLoader();
         if (self::$instance == null) {
-            $uri = "mysql:host=" . EnvLoader::getValue("DB_HOST")  . 
+            $uri = "mysql:host=" . EnvLoader::getValue("DB_HOST") . 
             ";dbname=" . EnvLoader::getValue("DB_NAME") . 
             ";port=" . EnvLoader::getValue("DB_PORT");
 
