@@ -56,17 +56,25 @@ class EventController extends BaseController
 
         $events = EventModel::getByDates($start, $end);
         
-        $keys = ["title", "start"];
+        $keys = ["id", "title", "start", "color"];
 
         foreach ($events as &$event) {
             $event->title = $event->titolo;
             $event->start = $event->partenza;
+            
+            $darken;
+            $event->stato == 1 ? $darken = 25 : $darken = 0;
+            $event->color =  EventColor::convert($event->colore)->toHex($darken);
+            
+            $properties = (array)$event->getData();
 
-            foreach ($event as $key => $value) {
+            foreach ($properties as $key => $value) {
                 if (!in_array($key, $keys)) {
-                    unset($event->$key);
+                    unset($properties[$key]);
                 }
             }
+
+            $event = (array) $properties;
         }    
         
         $httpHandler->sendResponse(body: $events, status: 200);
@@ -109,7 +117,6 @@ class EventController extends BaseController
 
     public static function deleteFiles(int $event_id = null, int $file_id = null){
         $httpHandler = new HttpHandler;
-        // $data = $httpHandler->handleRequest();
 
         $event = EventModel::get($event_id);
 
