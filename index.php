@@ -224,7 +224,7 @@ enum RequestMethod: string {
     case PUT = 'PUT';
     case DELETE = 'DELETE';
 
-    public static function convert(string $val): RequestMethod {
+    public static function convert(string $val): self {
         return match ($val) {
             'GET' => self::GET,
             'POST' => self::POST,
