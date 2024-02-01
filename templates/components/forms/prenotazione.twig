@@ -8,42 +8,85 @@
             <input type="hidden" name="id">
             
             <div class="mb-3">
-                <label for="titolo" class="form-label">Titolo:</label>
+                <label for="titolo" class="form-label fw-bold text-wrap">Titolo:</label>
                 <input type="text" class="form-control" id="titolo" name="titolo" aria-describedby="titleHelp">
                 {# <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> #}
             </div>
 
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="partenza" class="form-label">Data di partenza:</label>
+                    <label for="partenza" class="form-label fw-bold text-wrap">Data di partenza:</label>
                     <input type="date" class="form-control" name="partenza">
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="arrivo" class="form-label">Data di arrivo:</label>
+                    <label for="arrivo" class="form-label fw-bold text-wrap">Data di arrivo:</label>
                     <input type="date" class="form-control" name="arrivo">
                 </div>
             </div>
             
             {% if short is not defined %}
             <div class="mb-3">
-                <label for="capo_gruppo" class="form-label">Capo Gruppo:</label>
+                <label for="capo_gruppo" class="form-label fw-bold text-wrap">Capo Gruppo:</label>
                 <input type="text" class="form-control" name="capo_gruppo">
             </div>
 
             <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
+                <label for="email" class="form-label fw-bold text-wrap">Email:</label>
                 <input type="email" class="form-control" name="email">
             </div>
 
             <div class="mb-3">
-                <label for="telefono" class="form-label">Telefono:</label>
+                <label for="telefono" class="form-label fw-bold text-wrap">Telefono:</label>
                 <input type="tel" class="form-control" name="telefono" placeholder="+39 3xx xxxxxxx">
             </div>
 
             <div class="mb-3">
-                <label for="note" class="form-label">Note:</label>
+                <label for="note" class="form-label fw-bold text-wrap">Note:</label>
                 <textarea class="form-control" name="note"></textarea>
             </div>
+
+            {% set colore_options = [
+                { value: '0', label: 'Rosso' },
+                { value: '1', label: 'Verde' },
+                { value: '2', label: 'Azzurro' },
+                { value: '3', label: 'Giallo' },
+                { value: '4', label: 'Arancione' },
+                { value: '5', label: 'Viola' },
+            ] %}
+
+            <div class="mb-3">
+                <label for="colore" class="form-label fw-bold text-wrap">Colore:</label>
+                <select class="form-select" name="colore" required>
+                {% for option in colore_options %}
+                    <option value="{{ option.value }}">{{ option.label }}</option>
+                {% endfor %}
+                </select>
+            </div>
+
+            {% set stato_options = [
+                { value: '0', label: 'Non confermato' },
+                { value: '1', label: 'Confermato' },
+            ] %}
+
+            <div class="mb-3">
+                <label for="stato" class="form-label fw-bold text-wrap">Stato:</label>
+                <select class="form-select" name="stato" required>
+                {% for option in stato_options %}
+                    <option value="{{ option.value }}">{{ option.label }}</option>
+                {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="saldo" class="form-label fw-bold text-wrap">Saldo:</label>
+                <div class="input-group mb-3">
+                    <input type="number" name="saldo" class="form-control">
+                    <span class="input-group-text">€</span>
+                </div>
+            </div>
+
+
+
             {% endif %}
 
             {{ slot }}
