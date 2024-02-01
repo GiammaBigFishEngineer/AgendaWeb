@@ -7,6 +7,7 @@
 </div>
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+<script src="https://colorjs.io/dist/color.global.js"></script>
 <script>
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -25,37 +26,46 @@
                 // change the day's background color just for fun
                 info.dayEl.style.backgroundColor = 'red';
             },
-            // events: function(info, successCallback, failureCallback){
-            //     alert(info)
-
-            //     var start = info.startStr;
-            //     var end = info.endStr;
-                
-            //     axios.get('/api/events/date/?start=' + start + '&end=' + end)
-            //     // .then(response => response.json())
-            //     .then(data => {
-            //         console.log(data);
-            //         successCallback(data);
-            //     })
-            //     .catch(error => {
-            //         failureCallback(error.message);
-            //     });
-            // },
             eventClick: function(info) {
-
-                // console.log(info)
-
-                // Function to execute when an event is clicked
-                // alert('Clicked on: ' + info.event.title + "\nID: " + info.event.id);
-
                 fillEvent(info.event.id);
             },
-            //https://fullcalendar.io/docs/events-function
-            events: "/api/events/date/",
-            // datesSet: function(arg) {
-            //     console.log(arg);
-            //     alert('The new date range is: ' + arg.start + ' to ' + arg.end);
-            // },
+            events: function(info, successCallback, failureCallback) {
+                var url = "/api/events/date/"
+                
+                var params = {
+                    start: info.start,
+                    end: info.end,
+                }
+
+                var headers = {
+                    'X-Requested-With': 'XMLHttpRequest',
+                }
+                axios.get( url, { params, headers } ).then(function (res){
+                    successCallback(
+                        Array.prototype.slice.call(res.data).map(
+                            function(eventEl) {
+                                let bgColor = new Color(eventEl.color);
+                                let textColor = new Color("#FFFFFF");
+
+                                let contrast = bgColor.contrast(textColor, "WCAG21");
+                                if( contrast < 4.5 ) {
+                                    textColor = new Color("#000000")
+                                }
+
+                                return {
+                                    id: eventEl.id,
+                                    title: eventEl.title,
+                                    start: eventEl.start,
+                                    backgroundColor: eventEl.color,
+                                    borderColor: eventEl.color,
+                                    textColor: textColor.toString({format: "hex"}),
+                                    
+                                } 
+                            }
+                        )
+                    )
+                })
+            },
             aspectRatio: 1.5,
             handleWindowResize: true,
         });
