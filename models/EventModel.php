@@ -20,6 +20,9 @@ class EventModel extends BaseModel implements JsonSerializable
         "telefono",
         "note",
         "numero_allegati",
+        "saldo",
+        "stato",
+        "colore",
     ];
 
     public static function delete(int $id): void
@@ -47,5 +50,63 @@ class EventModel extends BaseModel implements JsonSerializable
 
         return $entities;
         // return new static(($row == false) ? [] : $row);
+    }
+}
+
+enum EventColor: int {
+    case ROSSO = 0;
+    case VERDE = 1;
+    case AZZURRO = 2;
+    case GIALLO = 3;
+    case ARANCIONE = 4;
+    case VIOLA = 5;
+
+    public function toHex(int $darkness = 0): string {
+        switch ($this) {
+            case self::ROSSO:
+                return self::darkenHexColor("#FF0000", $darkness);
+            case self::VERDE:
+                return self::darkenHexColor("#00FF00", $darkness);
+            case self::AZZURRO:
+                return self::darkenHexColor("#4B87FF", $darkness);
+            case self::GIALLO:
+                return self::darkenHexColor("#FFFF00", $darkness);
+            case self::ARANCIONE:
+                return self::darkenHexColor("#FFA500", $darkness);
+            case self::VIOLA:
+                return self::darkenHexColor("#8B00FF", $darkness);
+            default:
+                return "";
+        }
+    }
+
+    public static function convert(int $val): self {
+            return match ($val) {
+            0 => EventColor::ROSSO,
+            1 => EventColor::VERDE,
+            2 => EventColor::AZZURRO,
+            3 => EventColor::GIALLO,
+            4 => EventColor::ARANCIONE,
+            5 => EventColor::VIOLA,
+            default => throw new Exception('Unknown color value')
+        };
+    }
+
+    private function darkenHexColor($hexColor, $percent) {
+        // Remove the leading # if present
+        $hexColor = ltrim($hexColor, '#');
+    
+        // Convert the hex color to RGB
+        list($r, $g, $b) = sscanf($hexColor, "%02x%02x%02x");
+    
+        // Darken the color by reducing the RGB values
+        $r = max(0, $r - round($r * $percent / 100));
+        $g = max(0, $g - round($g * $percent / 100));
+        $b = max(0, $b - round($b * $percent / 100));
+    
+        // Convert the modified RGB values back to a hex color
+        $darkenedHexColor = sprintf("#%02x%02x%02x", $r, $g, $b);
+    
+        return $darkenedHexColor;
     }
 }
