@@ -8,11 +8,16 @@
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
 <script src="https://colorjs.io/dist/color.global.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/print-js@1.6.0/dist/print.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/print-js@1.6.0/dist/print.min.css" rel="stylesheet">
+
 <script>
+    var calendar;
 
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
+        calendar = new FullCalendar.Calendar(calendarEl, {
             // plugins: [ "interactionPlugin" ],
             locale: "it",
             themeSystem: 'bootstrap5',
@@ -77,21 +82,23 @@
 
 <div class="row">
     <div class="col-lg-12 mb-3">
-        <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#newEventModal">Aggiungi Prenotazione</button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newEventModal">Aggiungi Prenotazione</button>
+        <button class="btn btn-secondary float-end" onclick="printCalendar()">
+            <i class="bi bi-printer-fill"></i>
+        </button>
     </div>
 </div>
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-8 mb-3">
+        <div class="col-lg-8 mb-3" id="calendarColumn">
             <div id='calendar'></div>
         </div>
-        <div class="col-lg-4 mb-3">
+        <div class="col-lg-4 mb-3 d-lg-block" id="summaryColumn">
             <div style="background-color:#EEEEEE; padding: 4px; border-radius: 10px; overflow: hidden;">
                 <x-forms.prenotazione class="short" id="form-prenotazione-summary" class="readonly-form" short type="div">
                     <button class="btn btn-primary float-end" id="open-btn" data-bs-toggle="modal" data-bs-target="#viewEventModal" disabled>Visualizza <i class="bi bi-eye-fill"></i></button>
                     {# <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Conferma"> #}
-
                 </x-forms.prenotazione>
             </div>
         </div>
