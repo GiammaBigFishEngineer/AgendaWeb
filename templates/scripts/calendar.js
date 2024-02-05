@@ -52,6 +52,7 @@ function submitEventForm(event){
     }
 
     hideModal(form.closest(".modal").id);
+    calendar.refetchEvents()
 }
 
 function deleteEvent(event) {
@@ -70,5 +71,62 @@ function deleteEvent(event) {
         console.log(error);
     });
 
+    calendar.refetchEvents()
     hideModal(form.closest(".modal").id);
 }
+
+function printCalendar(){
+    cal_node = document.getElementById("calendar");
+    
+    table = cal_node.querySelector('table');
+
+    var existingPrintStyle = table.querySelector('style[type="text/css"]:not([media])'); // Check for a style element without media attribute
+
+    if (!existingPrintStyle) {
+        // Create the style element
+        var styleNode = document.createElement('style');
+        styleNode.media = 'print'; // Set the media attribute to print
+        styleNode.innerHTML = 'table { border-collapse: collapse; page-break-inside: avoid; } table th, table td { border: 1px solid #000; padding: 0.5em; }'; // Set the CSS styles for print
+        
+        // Append the style node as a child to the table
+        table.appendChild(styleNode);
+    }
+
+    //Get the dates for the header
+    const currentDate = calendar.getDate();
+    const currentMonth = currentDate.toLocaleString('en', { month: 'long' });
+    const currentYear = currentDate.getFullYear();
+
+    //Expands calendar
+    toggleSummaryColumn()
+    calendar.render()
+
+    //Prints and sets it back as it was before
+    setTimeout(function(){
+        printJS({ printable: table, type: 'html', header: '<h3>' + currentMonth + ' ' + currentYear + '</h3>', style: '@page { size: A4 landscape }'})
+        toggleSummaryColumn()
+        calendar.render()
+
+    }, 500)
+
+    // printJS({ printable: table, type: 'html', header: '<h1>' + currentMonth + ' ' + currentYear + '</h1>', style: '@page { size: A4 landscape }'})
+
+
+}
+
+// JavaScript to dynamically adjust column width when the second column is hidden
+function toggleSummaryColumn() {
+    const summaryColumn = document.getElementById('summaryColumn');
+    const calendarColumn = document.getElementById('calendarColumn');
+    if (summaryColumn.classList.contains('d-none')) {
+        summaryColumn.classList.remove('d-none');
+        calendarColumn.classList.remove('col-lg-12');
+        calendarColumn.classList.add('col-lg-8');
+    } else {
+        summaryColumn.classList.add('d-none');
+        calendarColumn.classList.remove('col-lg-8');
+        calendarColumn.classList.add('col-lg-12');
+    }
+}
+
+// Example: Call toggleSummaryColumn() when a button is clicked
