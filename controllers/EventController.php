@@ -64,7 +64,7 @@ class EventController extends BaseController
             
             $darken;
             $event->stato == 1 ? $darken = 25 : $darken = 0;
-            $event->color =  EventColor::convert($event->colore)->toHex($darken);
+            $event->color = EventColor::convert($event->colore)->toHex($darken);
             
             $properties = (array)$event->getData();
 
