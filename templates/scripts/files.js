@@ -18,10 +18,9 @@ async function setFileTable(id) {
     var tbody = table.querySelector('tbody');
 
     //Clears tableBody first
-    tbody.innerHTML = "";
-
     var cachedData = await apiCache.getCachedOrFetch(`/api/event/${id}/files`);
 
+    tbody.innerHTML = "";
     cachedData.forEach(file => {
         var node = document.createElement('tr');
         node.innerHTML = getFileTr(file);
