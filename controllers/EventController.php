@@ -16,6 +16,24 @@ class EventController extends BaseController
     //3MB
     protected static $limits = ["max_files" => 5, "max_size" => 3 * 1024 * 1024];
 
+    public static function save(?int $id = null, ?array $extra_data = null){
+        $httpHandler = new HttpHandler;
+        $data = $httpHandler->handleRequest();
+
+        $extraData = [];
+        $caparre = [];
+
+        foreach ($data as $key => $value) {
+            if (strpos($key, 'caparra-') === 0 && $value != '') {
+                if(floatval(str_replace(",",".", $value))){
+                    $caparre[] = str_replace(",",".", $value);   
+                }
+            }
+        }
+        
+        $extraData["caparre"] = json_encode($caparre);
+        parent::save($id, $extraData);
+    }
     public static function create($title, $arrival, $departure, $leader, $email, $phone, $notes) {
         $event = new EventModel();
         
@@ -63,7 +81,7 @@ class EventController extends BaseController
             $event->start = $event->partenza;
             
             $darken;
-            $event->stato == 1 ? $darken = 25 : $darken = 0;
+            $event->stato == 1 ? $darken = 35 : $darken = 0;
             $event->color = EventColor::convert($event->colore)->toHex($darken);
             
             $properties = (array)$event->getData();
