@@ -14,6 +14,8 @@ class BaseModel
     private string $_columns;
     private string $_bind_columns;
 
+    protected array $calculated_fields;
+
     public ?array $errors;
 
     public function __construct(array $properties = array())
@@ -149,7 +151,20 @@ class BaseModel
         ]);
         $row = $sth->fetch();
         
-        return new static(($row == false) ? [] : $row);
+        $model = new static(($row == false) ? [] : $row);
+
+        if($model->calculated_fields) {
+            foreach($model->calculated_fields as $key) {
+                $method = 'get' . ucfirst($key);
+
+                if (method_exists($model, $method)) {
+                    $val = $model->$method();
+                    $model->$key = $val;
+                }
+            }
+        }
+
+        return $model;
     }
 
     public static function delete(int $id): void
