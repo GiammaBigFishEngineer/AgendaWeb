@@ -73,8 +73,11 @@ function fillForm(data, form_ids) {
         var formElements
         if (form.nodeName == 'FORM') {
             formElements = form.elements;
+            formElements = [].slice.call(formElements)
+            formElements.push(...form.querySelectorAll('[type="input-list"]'));
+            
         } else {
-            formElements = document.querySelectorAll(`#${form_id} input, #${form_id} select, #${form_id} textarea`);
+            formElements = form.querySelectorAll(`#${form_id} input, #${form_id} select, #${form_id} textarea`);
         }
       
        for (let i = 0; i < formElements.length; i++) {
@@ -85,20 +88,25 @@ function fillForm(data, form_ids) {
             if (element.nodeName === 'SELECT') {
                 const selectedValue = data[name];
                 for (let j = 0; j < element.options.length; j++) {
-                if (element.options[j].value == selectedValue) {
-                    element.selectedIndex = j;
-                    break;
+                    if (element.options[j].value == selectedValue) {
+                        element.selectedIndex = j;
+                        break;
+                    }
                 }
-            }
-                } else if (element.type === 'date') {
-                    date = new Date(data[name]);
-                    element.valueAsDate = date;
-                } else {
-                    element.value = data[name];
+            } else if (element.type === 'date') {
+                date = new Date(data[name]);
+                element.valueAsDate = date;
+            } else if (element.getAttribute('fill-function')) {
+                const fillFunctionName = element.getAttribute('fill-function');
+                if (window[fillFunctionName] && typeof window[fillFunctionName] === 'function') {
+                    window[fillFunctionName](data[name]);   
                 }
+            } else {
+                element.value = data[name];
             }
         }
-    });
+    }
+});
 }
 
 /**
@@ -144,7 +152,6 @@ function hideModal(id) {
         if(modal){
             modal.hide();
         }
-        
     }
 }
 
@@ -177,4 +184,24 @@ function disableForm(form, type) {
             element.readOnly = true;
         }
     });
+}
+
+function getHighestId(prefix, type = "id") {
+    const elements = document.querySelectorAll(`[${type}^="${prefix}"]`);
+    let highestId = -Infinity;
+    let highestElement = null;
+
+    elements.forEach(element => {
+    const idSuffix = parseInt(element.id.substring(`${prefix}`.length));
+    if (idSuffix > highestId) {
+            highestId = idSuffix;
+            highestElement = element;
+        }
+    });
+
+    if(highestId == -Infinity) {
+        highestId = -1;
+    }
+
+    return [highestId, highestElement];
 }
