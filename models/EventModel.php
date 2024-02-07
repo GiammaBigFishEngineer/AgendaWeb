@@ -23,6 +23,12 @@ class EventModel extends BaseModel implements JsonSerializable
         "saldo",
         "stato",
         "colore",
+        "termine_saldo",
+        "caparre"
+    ];
+
+    protected array $calculated_fields = [
+        "caparre",
     ];
 
     public static function delete(int $id): void
@@ -50,6 +56,16 @@ class EventModel extends BaseModel implements JsonSerializable
 
         return $entities;
         // return new static(($row == false) ? [] : $row);
+    }
+
+    public function getCaparre(){
+        $model = $this->getData();
+
+        if(!isset($model["caparre"]) || $model["caparre"] === null) {
+            return "[]";
+        } else {
+            return $model["caparre"];
+        }
     }
 }
 
@@ -109,4 +125,6 @@ enum EventColor: int {
     
         return $darkenedHexColor;
     }
+
+
 }
