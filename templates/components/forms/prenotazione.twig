@@ -80,13 +80,22 @@
             <div class="mb-3">
                 <label for="saldo" class="form-label fw-bold text-wrap">Saldo:</label>
                 <div class="input-group mb-3">
-                    <input type="number" name="saldo" class="form-control">
                     <span class="input-group-text">€</span>
+                    <input type="number" name="saldo" class="form-control">
                 </div>
             </div>
 
+            <div class="mb-3">
+                <label for="termine_saldo" class="form-label fw-bold text-wrap">Termine del saldo:</label>
+                <input type="date" class="form-control" id="termine_saldo" name="termine_saldo">
+            </div>
 
-
+            <div class="mb-2">
+                <label for="termine_saldo" class="form-label fw-bold text-wrap">Caparre:</label>
+                <div name="caparre" type="input-list" data-type="json" fill-function="setupCaparre">
+                    
+                </div>
+            </div>
             {% endif %}
 
             {{ slot }}
