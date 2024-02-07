@@ -2,9 +2,29 @@
 
 {% block content %}
 
-<div class="alert alert-primary mt-3" role="alert">
+{# <div class="alert alert-primary mt-3" role="alert">
   You are now logged in!
-</div>
+</div> #}
+
+<style>
+.loader-overlay {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    z-index: 999; /* Ensure it's on top of other elements */
+    display: none; /* Hide the loader overlay initially */
+}
+</style>
+
+<script>
+// To show the loader overlay
+function showLoader() {
+    document.getElementById('loaderOverlay').classList.remove('d-none');
+}
+
+// To hide the loader overlay
+function hideLoader() {
+    document.getElementById('loaderOverlay').classList.add('d-none');
+}
+</script>
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
 <script src="https://colorjs.io/dist/color.global.js"></script>
@@ -18,23 +38,25 @@
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         calendar = new FullCalendar.Calendar(calendarEl, {
-            // plugins: [ "interactionPlugin" ],
             locale: "it",
             themeSystem: 'bootstrap5',
             initialView: 'dayGridMonth',
+            //Set's the first date as monday
             firstDay: 1,
             showNonCurrentDates: false,
             dateClick: function(info) {
-                alert('Clicked on: ' + info.dateStr);
-                alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-                alert('Current view: ' + info.view.type);
-                // change the day's background color just for fun
-                info.dayEl.style.backgroundColor = 'red';
+            //     alert('Clicked on: ' + info.dateStr);
+            //     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+            //     alert('Current view: ' + info.view.type);
+            //     // change the day's background color just for fun
+            //     info.dayEl.style.backgroundColor = 'red';
             },
             eventClick: function(info) {
                 fillEvent(info.event.id);
             },
             events: function(info, successCallback, failureCallback) {
+                showLoader() 
+            
                 var url = "/api/events/date/"
                 
                 var params = {
@@ -45,16 +67,23 @@
                 var headers = {
                     'X-Requested-With': 'XMLHttpRequest',
                 }
+                
                 axios.get( url, { params, headers } ).then(function (res){
                     successCallback(
                         Array.prototype.slice.call(res.data).map(
                             function(eventEl) {
                                 let bgColor = new Color(eventEl.color);
-                                let textColor = new Color("#FFFFFF");
+                                let curTextColor;
+                                let highestContrast = 0;
+                                let colorsToCheck = ["#FFFFFF", "#000000"];
 
-                                let contrast = bgColor.contrast(textColor, "WCAG21");
-                                if( contrast < 4.5 ) {
-                                    textColor = new Color("#000000")
+                                for (let color of colorsToCheck) {
+                                    let textColor = new Color(color);
+                                    let contrast = bgColor.contrast(textColor, "WCAG21");
+                                    if (contrast > highestContrast) {
+                                        curTextColor = textColor;
+                                        highestContrast = contrast;
+                                    }
                                 }
 
                                 return {
@@ -63,14 +92,15 @@
                                     start: eventEl.start,
                                     backgroundColor: eventEl.color,
                                     borderColor: eventEl.color,
-                                    textColor: textColor.toString({format: "hex"}),
-                                    
+                                    textColor: curTextColor.toString({format: "hex"}),
                                 } 
                             }
                         )
                     )
+                hideLoader()
                 })
             },
+
             aspectRatio: 1.5,
             handleWindowResize: true,
         });
@@ -80,7 +110,7 @@
 
 </script>
 
-<div class="row">
+<div class="row my-2">
     <div class="col-lg-12 mb-3">
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newEventModal">Aggiungi Prenotazione</button>
         <button class="btn btn-secondary float-end" onclick="printCalendar()">
@@ -91,11 +121,17 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-lg-8 mb-3" id="calendarColumn">
+        <div class="col-lg-8 mb-3 position-relative" id="calendarColumn">
             <div id='calendar'></div>
+            <div class="loader-overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" id="loaderOverlay">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
         </div>
         <div class="col-lg-4 mb-3 d-lg-block" id="summaryColumn">
             <div style="background-color:#EEEEEE; padding: 4px; border-radius: 10px; overflow: hidden;">
+                <h3>Riepilogo</h3>
                 <x-forms.prenotazione class="short" id="form-prenotazione-summary" class="readonly-form" short type="div">
                     <button class="btn btn-primary float-end" id="open-btn" data-bs-toggle="modal" data-bs-target="#viewEventModal" disabled>Visualizza <i class="bi bi-eye-fill"></i></button>
                     {# <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Conferma"> #}
@@ -105,6 +141,8 @@
     </div>
 </div>
 
+
+{# Modify Event Modal #}
 <div class="modal modal-lg fade" id="viewEventModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -130,6 +168,7 @@
     </div>
 </div>
 
+{# Create New Event Modal #}
 <div class="modal fade" id="newEventModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
