@@ -19,7 +19,9 @@ class BaseController
             $cachedEtag = $_SERVER['HTTP_IF_NONE_MATCH'] ? $_SERVER['HTTP_IF_NONE_MATCH'] : null;
     
             try {
-                $res = json_encode(static::$model::get($id));
+                $model = static::$model::get($id);
+                $res = json_encode($model);
+                
                 $etag = md5($res);
     
                 if (isset($cachedEtag) && $cachedEtag === $etag) {
@@ -57,7 +59,7 @@ class BaseController
 
     }
 
-    public static function save(?int $id = null)
+    public static function save(?int $id = null, ?array $extra_data = null)
     {
         $httpHandler = new HttpHandler;
         $data = $httpHandler->handleRequest();
@@ -73,14 +75,26 @@ class BaseController
             try {
                 if ($id === null) {
                     $obj = new static::$model($data);
+                    
+                    if (isset($extra_data)) {
+                        foreach ($extra_data as $key => $value) {
+                            $obj->$key = $value;
+                        }
+                    }
+
                     $obj->save();
-    
                     $httpHandler->sendResponse(body: $res, status: 201);
                 } else if ($id !== null) {
                     $obj = static::$model::get($id);
                     $obj->update($data);
+
+                    if (isset($extra_data)) {
+                        foreach ($extra_data as $key => $value) {
+                            $obj->$key = $value;
+                        }
+                    }
+
                     $obj->save();
-    
                     $httpHandler->sendResponse(body: $res, status: 204);
                 }
             } catch (Exception $e) {
