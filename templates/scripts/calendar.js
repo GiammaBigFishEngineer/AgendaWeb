@@ -47,11 +47,11 @@ function submitEventForm(event){
 
     if (newEvent) {
         clearForm(form);
+        hideModal(form.closest(".modal").id);
     } else {
         fillEvent(id);
     }
 
-    hideModal(form.closest(".modal").id);
     calendar.refetchEvents()
 }
 
@@ -86,7 +86,7 @@ function printCalendar(){
         // Create the style element
         var styleNode = document.createElement('style');
         styleNode.media = 'print'; // Set the media attribute to print
-        styleNode.innerHTML = 'table { border-collapse: collapse; page-break-inside: avoid; } table th, table td { border: 1px solid #000; padding: 0.5em; }'; // Set the CSS styles for print
+        styleNode.innerHTML = '* { page-break-inside: avoid; } table { border-collapse: collapse; } table th, table td { border: 1px solid #000; padding: 0.5em; }'; // Set the CSS styles for print
         
         // Append the style node as a child to the table
         table.appendChild(styleNode);
@@ -129,4 +129,33 @@ function toggleSummaryColumn() {
     }
 }
 
-// Example: Call toggleSummaryColumn() when a button is clicked
+function setupCaparre(data) {
+    console.log(data);
+
+    const vals = JSON.parse(data);
+    console.log(vals);
+
+    const caparreDiv = document.querySelector('[name="caparre"]');
+    
+    //Clear the list first
+    caparreDiv.innerHTML = null;
+
+    last_id = 0;
+    vals.forEach((item, index) => {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.name = `caparra-${index}`;
+        input.className = 'form-control mb-1';
+        input.value = item; // Set the value of the input to the array element
+        caparreDiv.appendChild(input);
+
+        last_id = index;
+    });
+
+    //Adds an empty input
+    const emptyInput = document.createElement('input');
+    emptyInput.type = 'number';
+    emptyInput.name = `caparra-${last_id+1}`;
+    emptyInput.className = 'form-control mb-1';
+    caparreDiv.appendChild(emptyInput);
+}
