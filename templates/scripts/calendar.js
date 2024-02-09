@@ -142,20 +142,54 @@ function setupCaparre(data) {
 
     last_id = 0;
     vals.forEach((item, index) => {
-        const input = document.createElement('input');
-        input.type = 'number';
-        input.name = `caparra-${index}`;
-        input.className = 'form-control mb-1';
-        input.value = item; // Set the value of the input to the array element
-        caparreDiv.appendChild(input);
+        caparra = fromHTML(generateCaparraElement(index, item));
+        caparreDiv.appendChild(caparra);
 
         last_id = index;
     });
 
     //Adds an empty input
-    const emptyInput = document.createElement('input');
-    emptyInput.type = 'number';
-    emptyInput.name = `caparra-${last_id+1}`;
-    emptyInput.className = 'form-control mb-1';
+    // const emptyInput = document.createElement('input');
+    const emptyInput = fromHTML(generateCaparraElement(last_id+1));
+    // emptyInput.type = 'number';
+    // emptyInput.name = `caparra-${last_id+1}`;
+    // emptyInput.className = 'form-control mb-1';
+
     caparreDiv.appendChild(emptyInput);
+}
+
+function generateCaparraElement(index, item = null){
+    // selected = false
+    // if(item.type) {
+    //     selected = true
+    // }
+
+    if( item !== null ) {
+        return `<div class="d-flex mb-1">
+            <div class="input-group mx-1">
+                <span class="input-group-text">€</span>
+                <input type="number" name="caparra-value-${index}" class="form-control" value="${item.value}">
+            </div>
+            <select class="form-select mx-1" name="caparra-type-${index}">
+                <option value="" `  + (item.type == '' ? "selected" : "")  + ` disabled>Tipo Pagamento</option>
+                <option` + (item.type == '0' ? "selected" : "") + ` value="0">Bonifico</option>
+                <option` + (item.type == '1' ? "selected" : "") + ` value="1">Contanti</option>
+            </select>
+        </div>`
+    } else {
+        return `<div class="d-flex mb-1">
+            <div class="input-group mx-1">
+                <span class="input-group-text">€</span>
+                <input type="number" name="caparra-value-${index}" name="caparra-id" class="form-control">
+            </div>
+            <select class="form-select mx-1" name="caparra-type-${index}">
+                <option value="" selected disabled>Tipo Pagamento</option>
+                <option value="0">Bonifico</option>
+                <option value="1">Contanti</option>
+            </select>
+        </div>`
+    }
+
+
+
 }

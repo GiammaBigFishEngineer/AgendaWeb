@@ -22,18 +22,32 @@ class EventController extends BaseController
 
         $extraData = [];
         $caparre = [];
+    
+        $caparraData = array();
 
         foreach ($data as $key => $value) {
-            if (strpos($key, 'caparra-') === 0 && $value != '') {
-                if(floatval(str_replace(",",".", $value))){
-                    $caparre[] = str_replace(",",".", $value);   
-                }
+            // Extract the index after "caparra-value-"
+            if (strpos($key, 'caparra-value-') === 0) {
+                $index = substr($key, 14); 
+                $caparraData[(int)$index]["value"] = $value;
+            } 
+            if (strpos($key, 'caparra-type-') === 0) {
+                $index = substr($key, 13);
+                $caparraData[(int)$index]["type"] = $value;
+            }
+        }
+
+        foreach ($caparraData as $index => $caparra) {
+            if ($caparra["type"] === "" || $caparra["value"] === "") {
+                unset($caparraData[$index]);
             }
         }
         
-        $extraData["caparre"] = json_encode($caparre);
+        $extraData["caparre"] = json_encode($caparraData);
+        
         parent::save($id, $extraData);
     }
+    
     public static function create($title, $arrival, $departure, $leader, $email, $phone, $notes) {
         $event = new EventModel();
         
