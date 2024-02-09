@@ -20,15 +20,17 @@ class EventModel extends BaseModel implements JsonSerializable
         "telefono",
         "note",
         "numero_allegati",
-        "saldo",
+        // "saldo",
         "stato",
         "colore",
         "termine_saldo",
-        "caparre"
+        "caparre",
+        "totale"
     ];
 
     protected array $calculated_fields = [
         "caparre",
+        "saldo"
     ];
 
     public static function delete(int $id): void
@@ -43,7 +45,7 @@ class EventModel extends BaseModel implements JsonSerializable
     }
 
     public static function getByDates($start, $end){
-        $query = "SELECT * FROM " . static::$nome_tabella  . ` WHERE partenza BETWEEN {$start} AND {$end}`;
+        $query = "SELECT * FROM " . static::$nome_tabella  . ` WHERE partenza BETWEEN {$start} AND {$end};`;
         $sth = DB::get()->prepare($query);
         $sth->execute();
 
@@ -67,6 +69,29 @@ class EventModel extends BaseModel implements JsonSerializable
             return $model["caparre"];
         }
     }
+
+    public function getSaldo(){
+        $model = $this->getData();
+        
+        if( isset($model["totale"]) && isset($model["caparre"]) ) {
+            $caparre = json_decode($model["caparre"]);
+
+            $tot_cap = 0;
+            foreach ($caparre as $key => $caparra) {
+                $tot_cap += (float)$caparra->value;
+            }
+
+            $val = (float)$model["totale"] - $tot_cap;
+
+            if($val < 0){
+                return 0;
+            }
+            return $val;
+        }
+
+        return null;
+    }
+
 }
 
 enum EventColor: int {
