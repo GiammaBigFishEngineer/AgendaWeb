@@ -27,17 +27,26 @@
             {% if short is not defined %}
             <div class="mb-3">
                 <label for="capo_gruppo" class="form-label fw-bold text-wrap">Capo Gruppo:</label>
-                <input type="text" class="form-control" name="capo_gruppo">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <input type="text" class="form-control" name="capo_gruppo">
+                </div>
             </div>
 
             <div class="mb-3">
                 <label for="email" class="form-label fw-bold text-wrap">Email:</label>
-                <input type="email" class="form-control" name="email">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-envelope-at"></i></span>
+                    <input type="email" class="form-control" name="email">
+                </div>
             </div>
 
             <div class="mb-3">
                 <label for="telefono" class="form-label fw-bold text-wrap">Telefono:</label>
-                <input type="tel" class="form-control" name="telefono" placeholder="+39 3xx xxxxxxx">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                    <input type="tel" class="form-control" name="telefono" placeholder="+39 3xx xxxxxxx">
+                </div>
             </div>
 
             <div class="mb-3">
@@ -45,43 +54,57 @@
                 <textarea class="form-control" name="note"></textarea>
             </div>
 
-            {% set colore_options = [
-                { value: '0', label: 'Rosso' },
-                { value: '1', label: 'Verde' },
-                { value: '2', label: 'Azzurro' },
-                { value: '3', label: 'Giallo' },
-                { value: '4', label: 'Arancione' },
-                { value: '5', label: 'Viola' },
-            ] %}
+            <div class="row">
+            
+                {% set colore_options = [
+                    { value: '0', label: 'Rosso' },
+                    { value: '1', label: 'Verde' },
+                    { value: '2', label: 'Azzurro' },
+                    { value: '3', label: 'Giallo' },
+                    { value: '4', label: 'Arancione' },
+                    { value: '5', label: 'Viola' },
+                ] %}
 
-            <div class="mb-3">
-                <label for="colore" class="form-label fw-bold text-wrap">Colore:</label>
-                <select class="form-select" name="colore" required>
-                {% for option in colore_options %}
-                    <option value="{{ option.value }}">{{ option.label }}</option>
-                {% endfor %}
-                </select>
+                <div class="mb-3 col-md-6">
+                    <label for="colore" class="form-label fw-bold text-wrap">Colore:</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-palette"></i></span>
+                        <select class="form-select" name="colore" required>
+                        {% for option in colore_options %}
+                            <option value="{{ option.value }}">{{ option.label }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                {% set stato_options = [
+                    { value: '0', label: 'Non confermato' },
+                    { value: '1', label: 'Confermato' },
+                ] %}
+
+                <div class="mb-3 col-md-6">
+                    <label for="stato" class="form-label fw-bold text-wrap">Stato:</label>
+                    <select class="form-select" name="stato" required>
+                    {% for option in stato_options %}
+                        <option value="{{ option.value }}">{{ option.label }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
             </div>
 
-            {% set stato_options = [
-                { value: '0', label: 'Non confermato' },
-                { value: '1', label: 'Confermato' },
-            ] %}
-
             <div class="mb-3">
-                <label for="stato" class="form-label fw-bold text-wrap">Stato:</label>
-                <select class="form-select" name="stato" required>
-                {% for option in stato_options %}
-                    <option value="{{ option.value }}">{{ option.label }}</option>
-                {% endfor %}
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="saldo" class="form-label fw-bold text-wrap">Saldo:</label>
+                <label for="totale" class="form-label fw-bold text-wrap">Totale:</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text">€</span>
-                    <input type="number" name="saldo" class="form-control">
+                    <input type="number" name="totale" class="form-control">
+                </div>
+            </div>
+
+            <div class="mb-2">
+                <label for="termine_saldo" class="form-label fw-bold text-wrap">Caparre:</label>
+                <div name="caparre" type="input-list" data-type="json" fill-function="setupCaparre">
+                    
+
                 </div>
             </div>
 
@@ -90,15 +113,32 @@
                 <input type="date" class="form-control" id="termine_saldo" name="termine_saldo">
             </div>
 
-            <div class="mb-2">
-                <label for="termine_saldo" class="form-label fw-bold text-wrap">Caparre:</label>
-                <div name="caparre" type="input-list" data-type="json" fill-function="setupCaparre">
-                    
+            <div class="mb-3">
+                <label for="saldo" class="form-label fw-bold text-wrap">Saldo:</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">€</span>
+                    <input type="number" name="saldo" class="form-control" disabled>
                 </div>
             </div>
+
+
+
+            {# ! Example Caparra #}
+            {# <div class="d-flex mb-1">
+                <div class="input-group mx-1">
+                    <span class="input-group-text">€</span>
+                    <input type="number" name="caparra-id" class="form-control">
+                </div>
+                <select class="form-select  mx-1">
+                    <option value="" selected disabled>Tipo Pagamento</option>
+                    <option value="0">Bonifico</option>
+                    <option value="1">Contanti</option>
+                </select>
+            </div> #}
             {% endif %}
 
             {{ slot }}
+
         </{{type}}>
     </div>
 
