@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">            
+        <div class="d-flex">
+            <a class="navbar-brand" href="/">Agenda Web</a>
+        </div>
+
+    <div>
+        <ul class="navbar-nav ms-auto d-flex align-items-center">
+            <li class="nav-item dropdown">
+                {% if session.loggedIn %}
+                <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Profilo
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+                    {% if session.loggedIn is not null %}
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    {% endif %}
+                </ul>
+                <span class="text-light">Ruolo: {{session.user.ruolo}}</span>
+                {% endif %}
+            </li>
+        </ul>
+
+    </div>
+</nav>

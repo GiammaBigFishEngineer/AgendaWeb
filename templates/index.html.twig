@@ -40,41 +40,17 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">            
-                <div class="d-flex">
-                    <a class="navbar-brand" href="/">Agenda Web</a>
-                </div>
+        <x-navbar></x-navbar>
 
-            <div>
-                <ul class="navbar-nav ms-auto d-flex align-items-center">
-                    <li class="nav-item dropdown">
-                        {% if session.loggedIn %}
-                        <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            Profilo
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
-                            {% if session.loggedIn is not null %}
-                                <a class="dropdown-item" href="/logout">Logout</a>
-                            {% endif %}
-                        </ul>
-                        <span class="text-light">Ruolo: {{session.user.ruolo}}</span>
-                        {% endif %}
-                    </li>
-                </ul>
+        <div class="d-flex align-items-stretch" style="min-height: 95vh">                
+            <div class="main-content container" style="overflow: auto">
+                {% block content %}
 
+                {% endblock %}
             </div>
-        </nav>
-
-            <div class="d-flex align-items-stretch" style="min-height: 95vh">                
-                <div class="main-content container" style="overflow: auto">
-                    {% block content %}
-
-                    {% endblock %}
-                </div>
-            </div>
-            
         </div>
+
+        <x-footer></x-footer>
     </body>
 
 </html>
