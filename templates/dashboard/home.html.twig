@@ -112,7 +112,9 @@ function hideLoader() {
 
 <div class="row my-2">
     <div class="col-lg-12 mb-3">
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newEventModal">Aggiungi Prenotazione</button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newEventModal">
+            <i class="bi bi-plus-circle"></i> Aggiungi Prenotazione
+        </button>
         <button class="btn btn-secondary float-end" onclick="printCalendar()">
             <i class="bi bi-printer-fill"></i>
         </button>
@@ -122,7 +124,7 @@ function hideLoader() {
 <div class="container">
     <div class="row">
         <div class="col-lg-8 mb-3 position-relative" id="calendarColumn">
-            <div id='calendar'></div>
+            <div id='calendar' class="print-container"></div>
             <div class="loader-overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" id="loaderOverlay">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Loading...</span>
