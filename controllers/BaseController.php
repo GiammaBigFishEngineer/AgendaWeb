@@ -82,8 +82,10 @@ class BaseController
                         }
                     }
 
-                    $obj->save();
-                    $httpHandler->sendResponse(body: $res, status: 201);
+                    if ($obj->validate()){
+                        $obj->save();
+                        $httpHandler->sendResponse(body: $res, status: 201);    
+                    }
                 } else if ($id !== null) {
                     $obj = static::$model::get($id);
                     $obj->update($data);
@@ -94,10 +96,15 @@ class BaseController
                         }
                     }
 
-                    $obj->save();
-                    $httpHandler->sendResponse(body: $res, status: 204);
+                    if ($obj->validate()){
+                        $obj->save();
+                        $httpHandler->sendResponse(body: $res, status: 204); 
+                    }
                 }
             } catch (Exception $e) {
+                $res = $e->getMessage();
+
+                $res = "Error updating";
                 $httpHandler->sendResponse(body: $res, status: 500);
             }
 
