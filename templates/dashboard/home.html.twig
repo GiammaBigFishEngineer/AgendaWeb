@@ -32,6 +32,16 @@ function hideLoader() {
 <script src="https://cdn.jsdelivr.net/npm/print-js@1.6.0/dist/print.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/print-js@1.6.0/dist/print.min.css" rel="stylesheet">
 
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.js"></script>
+{# <script src="https://unpkg.com/jspdf-autotable@3.8.1/dist/jspdf.plugin.autotable.js"></script> #}
+
+<script src="https://cdn.jsdelivr.net/npm/pdfmake@0.2.9/build/pdfmake.min.js"></script>
+
+{# <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> #}
+{# <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js" integrity="sha512-8+n4PSpp8TLHbSf28qpjRfu51IuWuJZdemtTC1EKCHsZmWi2O821UEdt6S3l4+cHyUQhU8uiAAUeVI1MUiFATA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> #}
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 <script>
     var calendar;
 
@@ -195,7 +205,6 @@ function hideLoader() {
 <script src={{ script_location ~ "files.js" }}></script>
 
 <script>
-
 document.addEventListener("DOMContentLoaded", function() {
     var forms = document.querySelectorAll('.readonly-form');
 
@@ -204,6 +213,5 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 });
-
 </script>
 {% endblock content %}
