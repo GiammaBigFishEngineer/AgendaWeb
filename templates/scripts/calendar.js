@@ -119,7 +119,7 @@ function printCalendar(){
                 var y = (maxHeight - pdfHeight) / 2;
 
                 pdf.addImage(imgData, 'PNG', x, y, pdfWidth, pdfHeight);
-                pdf.save("output.pdf");
+                pdf.save("calendario.pdf");
             } else {
                 // Canvas is not supported
                 console.log('Canvas is not enabled');
