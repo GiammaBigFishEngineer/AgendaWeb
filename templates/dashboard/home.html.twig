@@ -55,11 +55,8 @@ function hideLoader() {
             firstDay: 1,
             showNonCurrentDates: false,
             dateClick: function(info) {
-            //     alert('Clicked on: ' + info.dateStr);
-            //     alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-            //     alert('Current view: ' + info.view.type);
-            //     // change the day's background color just for fun
-            //     info.dayEl.style.backgroundColor = 'red';
+                showModal("newEventModal")
+                fillForm({"partenza" : info.dateStr}, "form-new-prenotazione")
             },
             eventClick: function(info) {
                 fillEvent(info.event.id);
@@ -107,6 +104,7 @@ function hideLoader() {
                             }
                         )
                     )
+
                 hideLoader()
                 })
             },
@@ -119,6 +117,21 @@ function hideLoader() {
     });
 
 </script>
+
+<style>
+
+.fc-col-header-cell-cushion {
+    color: black; /* Set the color to black */
+    font-weight: bold; /* Make the text bold */
+    text-decoration: none;
+}
+
+.fc-daygrid-day-number {
+    text-decoration: none; /* Remove text underline */
+    color: gray; /* Set the color to black */
+}
+
+</style>
 
 <div class="row my-2">
     <div class="col-lg-12 mb-3">
