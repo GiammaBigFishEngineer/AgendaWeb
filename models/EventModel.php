@@ -6,6 +6,8 @@ require_once(__ROOT__ . '/controllers/FileController.php');
 
 require_once(__ROOT__ . '/traits/JsonSerializable.php');
 
+require_once(__ROOT__ . '/utils/Validation.php');
+
 class EventModel extends BaseModel implements JsonSerializable
 {
     use JsonSerializableTrait;
@@ -92,6 +94,13 @@ class EventModel extends BaseModel implements JsonSerializable
         return null;
     }
 
+    public function validate(): bool
+    {
+        $this->totale = str_replace(',', '.', $this->totale);
+        $this->totale = number_format($this->totale, 2, '.', '');
+
+        return true;
+    }
 }
 
 enum EventColor: int {
