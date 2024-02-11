@@ -225,5 +225,16 @@ function fromHTML(html, trim = true) {
     // based on whether the input HTML had one or more roots.
     if (result.length === 1) return result[0];
     return result;
-  }
+}
   
+function setFormMessage(form, message_type, message, timeout = 7000) {
+    message_label = form.querySelector(`[message-type="${message_type}"]`)
+    message_label.innerHTML = message;
+
+    setTimeout(function() {
+        message_label.classList.add('fade');
+
+        message_label.innerHTML = "";
+
+    }, timeout);
+}

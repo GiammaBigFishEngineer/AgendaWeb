@@ -43,6 +43,15 @@ function submitEventForm(event){
     })
     .catch(function (error) {
         console.log(error);
+
+        var error;
+        if(error.response.data.message == null) {
+            error = "Error"
+        } else {
+            error = error.response.data.message
+        }
+
+        setFormMessage(form, "error", error.response.data.message);
     });
 
     if (newEvent) {
@@ -207,8 +216,16 @@ function toggleSummaryColumn() {
 
 function setupCaparre(data) {
     console.log(data);
+    data = JSON.parse(data)
+    var vals;
 
-    const vals = JSON.parse(data);
+    // Check if the inputObject is an object and has the expected structure
+    if (typeof data === 'object' && data !== null) {
+        vals = Object.values(data) 
+    } else {
+        vals = data;
+    }
+
     console.log(vals);
 
     const caparreDiv = document.querySelector('[name="caparre"]');
@@ -225,21 +242,12 @@ function setupCaparre(data) {
     });
 
     //Adds an empty input
-    // const emptyInput = document.createElement('input');
     const emptyInput = fromHTML(generateCaparraElement(last_id+1));
-    // emptyInput.type = 'number';
-    // emptyInput.name = `caparra-${last_id+1}`;
-    // emptyInput.className = 'form-control mb-1';
 
     caparreDiv.appendChild(emptyInput);
 }
 
 function generateCaparraElement(index, item = null){
-    // selected = false
-    // if(item.type) {
-    //     selected = true
-    // }
-
     if( item !== null ) {
         return `<div class="d-flex mb-1">
             <div class="input-group mx-1">
