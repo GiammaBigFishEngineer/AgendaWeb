@@ -1,0 +1,31 @@
+{# <pre>
+    {{ dump() }}
+</pre> #}
+<div class="row">
+
+    <div class="container">
+        <ul id="sfTabs" class="nav nav-tabs" role="tablist">
+        {% for tab in tabs %}
+            <li class="nav-item" role="tab">
+                <a class="nav-link{% if loop.first %} active{% endif %}" id="{{ tab.id }}-tab" data-bs-toggle="tab" href="#{{ tab.id }}-tab-pane" role="tab" aria-controls="{{ tab.id }}-tab-pane" aria-selected="{{ loop.first ? 'true' : 'false' }}">
+                    {{ tab.label }}
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+    
+        <{{type}} {{ attributes.merge({ class: 'prenotazione form' }) }}  id="{{id}}">
+            <div class="tab-content mt-2" id="sfTabsContent">
+                {% for tab in tabs %}
+                <div class="tab-pane {% if loop.first %} show active{% endif %}" id="{{ tab.id }}-tab-pane" role="tabpanel" aria-labelledby="{{ tab.id }}-tab" tabindex="0">
+                    {# {{ tab.id + "tabs" }} #}
+                    {% set tab_id_name = tab.id ~ "_tab" %}
+                    {{ attribute(_context, tab_id_name) }}
+                </div>
+                {% endfor %}
+            </div>
+        </{{type}}>
+
+    </div>
+
+</div>

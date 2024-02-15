@@ -166,6 +166,21 @@ function hideLoader() {
     </div>
 </div>
 
+{% set tabs = [
+        {
+            id: "general",
+            label: "Generale",
+        },
+        {
+            id: "saldo",
+            label: "Saldo",
+        },
+        {
+            id: "file",
+            label: "Files",
+        },
+    ] 
+%}
 
 {# Modify Event Modal #}
 <div class="modal modal-lg fade" id="viewEventModal" tabindex="-1" aria-hidden="true">
@@ -177,17 +192,32 @@ function hideLoader() {
             </div>
             
             <div class="modal-body">
-                <x-forms.prenotazione id="form-prenotazione" type="form">
-                    <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Modifica">
-                    <button class="btn btn-danger" onclick="deleteEvent(event)"><i class="bi bi-trash"></i></button>
+                <x-forms.prenotazione-tabs id="form-prenotazione" type="form" tabs={{tabs}}>
+                    <x-slot name="general_tab">
+                        <x-prenotazione.general>
+                        </x-prenotazione.general>
 
-                    <x-slot name="second_col">
-                        <h2>Files</h2>
+                        <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Modifica">
+                        <button class="btn btn-danger" onclick="deleteEvent(event)"><i class="bi bi-trash"></i></button>
+                    </x-slot>
+
+
+                    <x-slot name="saldo_tab">
+                        <x-prenotazione.saldo>
+                        </x-prenotazione.saldo>
+
+                        <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Modifica">
+                        <button class="btn btn-danger" onclick="deleteEvent(event)"><i class="bi bi-trash"></i></button>
+                    </x-slot>
+
+
+                    <x-slot name="file_tab">
+                        <h2>Files:</h2>
 
                         <x-forms.file id="fileForm"></x-forms.file>
                         <x-table.file id="fileTable"></x-table.file>
                     </x-slot>
-                </x-forms.prenotazione>
+                </x-forms.prenotazione-tabs>
             </div>
         </div>
     </div>
