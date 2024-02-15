@@ -1,7 +1,6 @@
 {# <pre>
     {{ dump() }}
 </pre> #}
-{# class="prenotazione form" #}
 <div class="row">
     <div class="col border-end mx-1">
         <{{type}} {{ attributes.merge({ class: 'prenotazione form' }) }}  id="{{id}}">
@@ -10,7 +9,6 @@
             <div class="mb-3">
                 <label for="titolo" class="form-label fw-bold text-wrap">Titolo:</label>
                 <input type="text" class="form-control" id="titolo" name="titolo" aria-describedby="titleHelp">
-                {# <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> #}
             </div>
 
             <div class="row">
@@ -27,7 +25,7 @@
             {% if short is not defined %}
             <div class="mb-3">
                 <label for="capo_gruppo" class="form-label fw-bold text-wrap">Capo Gruppo:</label>
-                <div class="input-group">
+                <div class="input-group input-group-sm">
                     <span class="input-group-text"><i class="bi bi-person"></i></span>
                     <input type="text" class="form-control" name="capo_gruppo">
                 </div>
@@ -35,7 +33,7 @@
 
             <div class="mb-3">
                 <label for="email" class="form-label fw-bold text-wrap">Email:</label>
-                <div class="input-group">
+                <div class="input-group input-group-sm">
                     <span class="input-group-text"><i class="bi bi-envelope-at"></i></span>
                     <input type="email" class="form-control" name="email">
                 </div>
@@ -43,7 +41,7 @@
 
             <div class="mb-3">
                 <label for="telefono" class="form-label fw-bold text-wrap">Telefono:</label>
-                <div class="input-group">
+                <div class="input-group input-group-sm">
                     <span class="input-group-text"><i class="bi bi-telephone"></i></span>
                     <input type="tel" class="form-control" name="telefono" placeholder="+39 3xx xxxxxxx">
                 </div>
@@ -51,7 +49,7 @@
 
             <div class="mb-3">
                 <label for="note" class="form-label fw-bold text-wrap">Note:</label>
-                <textarea class="form-control" name="note"></textarea>
+                <textarea class="form-control" name="note" rows="25" cols="100"></textarea>
             </div>
 
             <div class="row">

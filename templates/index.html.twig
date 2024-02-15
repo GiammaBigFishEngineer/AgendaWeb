@@ -33,7 +33,20 @@
 
             /* Firefox */
             input[type=number] {
-            -moz-appearance: textfield;
+                -moz-appearance: textfield;
+            }
+
+            ::-webkit-scrollbar {
+                width: 12px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background-color: #004CC5;
+            }
+
+            * {
+                scrollbar-width: thick;
+                scrollbar-color: #004CC5;
             }
 
         </style>
