@@ -178,11 +178,13 @@ function hideLoader() {
         {
             id: "file",
             label: "Files",
+            outsideForm: true,
         },
     ] 
 %}
 
 {# Modify Event Modal #}
+<form id="fileForm"></form>
 <div class="modal modal-lg fade" id="viewEventModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
