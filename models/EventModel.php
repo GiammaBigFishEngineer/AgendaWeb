@@ -22,7 +22,6 @@ class EventModel extends BaseModel implements JsonSerializable
         "telefono",
         "note",
         "numero_allegati",
-        // "saldo",
         "stato",
         "colore",
         "termine_saldo",
