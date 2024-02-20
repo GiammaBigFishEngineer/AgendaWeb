@@ -7,8 +7,9 @@
         "sabre/http": "^7.0",
         "symfony/console": "v6.4.2",
         "symfony/string": "v6.4.2",
-        "nesbot/carbon": "^2.72",
+        "nesbot/carbon": "^2.72"
+    },
+    "require-dev": {
         "robmorgan/phinx": "^0.16.0"
     }
-
 }

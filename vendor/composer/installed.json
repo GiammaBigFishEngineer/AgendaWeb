@@ -2594,5 +2594,17 @@
         }
     ],
     "dev": true,
-    "dev-package-names": []
+    "dev-package-names": [
+        "cakephp/chronos",
+        "cakephp/core",
+        "cakephp/database",
+        "cakephp/datasource",
+        "cakephp/utility",
+        "league/container",
+        "psr/log",
+        "psr/simple-cache",
+        "robmorgan/phinx",
+        "symfony/config",
+        "symfony/filesystem"
+    ]
 }

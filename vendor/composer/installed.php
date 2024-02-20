@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'e68caab78e94af27a4673f61bcfba4e704e66696',
+        'reference' => 'c6827f95e5a67c2155fcd4f0a6c02025cf45d132',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'e68caab78e94af27a4673f61bcfba4e704e66696',
+            'reference' => 'c6827f95e5a67c2155fcd4f0a6c02025cf45d132',
             'dev_requirement' => false,
         ),
         'cakephp/chronos' => array(
@@ -26,7 +26,7 @@
             'install_path' => __DIR__ . '/../cakephp/chronos',
             'aliases' => array(),
             'reference' => '9cb035acd10152a6b74df936986f15c4e6015bd3',
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'cakephp/core' => array(
             'pretty_version' => '5.0.5',
@@ -35,7 +35,7 @@
             'install_path' => __DIR__ . '/../cakephp/core',
             'aliases' => array(),
             'reference' => '87a2eba6c7484ba28ba0acc31a20f1b6598d6627',
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'cakephp/database' => array(
             'pretty_version' => '5.0.5',
@@ -44,7 +44,7 @@
             'install_path' => __DIR__ . '/../cakephp/database',
             'aliases' => array(),
             'reference' => 'f2574fce6f92f9d720e03019cdde008cdb225bfe',
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'cakephp/datasource' => array(
             'pretty_version' => '5.0.5',
@@ -53,7 +53,7 @@
             'install_path' => __DIR__ . '/../cakephp/datasource',
             'aliases' => array(),
             'reference' => '848bf92854b91876c57ed2c2dc70e0cc846ec309',
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'cakephp/utility' => array(
             'pretty_version' => '5.0.5',
@@ -62,7 +62,7 @@
             'install_path' => __DIR__ . '/../cakephp/utility',
             'aliases' => array(),
             'reference' => 'f7dea1e1c618b4765ba95af8094677a1ce977fe1',
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'carbonphp/carbon-doctrine-types' => array(
             'pretty_version' => '3.1.0',
@@ -98,7 +98,7 @@
             'install_path' => __DIR__ . '/../league/container',
             'aliases' => array(),
             'reference' => '375d13cb828649599ef5d48a339c4af7a26cd0ab',
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'nesbot/carbon' => array(
             'pretty_version' => '2.72.2',
@@ -110,7 +110,7 @@
             'dev_requirement' => false,
         ),
         'orno/di' => array(
-            'dev_requirement' => false,
+            'dev_requirement' => true,
             'replaced' => array(
                 0 => '~2.0',
             ),
@@ -158,10 +158,10 @@
             'dev_requirement' => false,
         ),
         'psr/container-implementation' => array(
-            'dev_requirement' => false,
+            'dev_requirement' => true,
             'provided' => array(
-                0 => '^1.0',
-                1 => '^2.0',
+                0 => '^2.0',
+                1 => '^1.0',
             ),
         ),
         'psr/log' => array(
@@ -171,7 +171,7 @@
             'install_path' => __DIR__ . '/../psr/log',
             'aliases' => array(),
             'reference' => 'fe5ea303b0887d5caefd3d431c3e61ad47037001',
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'psr/log-implementation' => array(
             'dev_requirement' => false,
@@ -186,7 +186,7 @@
             'install_path' => __DIR__ . '/../psr/simple-cache',
             'aliases' => array(),
             'reference' => '764e0b3939f5ca87cb904f570ef9be2d78a07865',
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'robmorgan/phinx' => array(
             'pretty_version' => '0.16.0',
@@ -195,7 +195,7 @@
             'install_path' => __DIR__ . '/../robmorgan/phinx',
             'aliases' => array(),
             'reference' => 'e039a723e9fe33e406102ac1c3dc0a54c031152f',
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'sabre/event' => array(
             'pretty_version' => '6.0.0',
@@ -231,7 +231,7 @@
             'install_path' => __DIR__ . '/../symfony/config',
             'aliases' => array(),
             'reference' => '86a5027869ca3d6bdecae6d5d6c2f77c8f2c1d16',
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'symfony/console' => array(
             'pretty_version' => 'v6.4.2',
@@ -258,7 +258,7 @@
             'install_path' => __DIR__ . '/../symfony/filesystem',
             'aliases' => array(),
             'reference' => '2890e3a825bc0c0558526c04499c13f83e1b6b12',
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'symfony/polyfill-ctype' => array(
             'pretty_version' => 'v1.28.0',
