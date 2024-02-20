@@ -26,7 +26,7 @@ final class Prenotazioni extends AbstractMigration
             ->addColumn('capo_gruppo', 'string', ['limit' => 255, 'null' => false])
             ->addColumn('email', 'string', ['limit' => 255, 'null' => false])
             ->addColumn('telefono', 'string', ['limit' => 20, 'null' => false])
-            ->addColumn('note', 'longtext', ['null' => true])
+            ->addColumn('note', 'text', ['null' => true])
             ->addColumn('numero_allegati', 'integer', ['null' => true])
             ->addColumn('stato', 'integer', ['null' => false])
             ->addColumn('colore', 'integer', ['limit' => 7, 'null' => false])
