@@ -13,12 +13,12 @@
 
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="partenza" class="form-label fw-bold text-wrap">Data di partenza:</label>
-                    <input type="date" class="form-control" name="partenza">
-                </div>
-                <div class="col-md-6 mb-3">
                     <label for="arrivo" class="form-label fw-bold text-wrap">Data di arrivo:</label>
                     <input type="date" class="form-control" name="arrivo">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="partenza" class="form-label fw-bold text-wrap">Data di partenza:</label>
+                    <input type="date" class="form-control" name="partenza">
                 </div>
             </div>
             
@@ -55,12 +55,18 @@
             <div class="row">
             
                 {% set colore_options = [
-                    { value: '0', label: 'Rosso' },
-                    { value: '1', label: 'Verde' },
-                    { value: '2', label: 'Azzurro' },
-                    { value: '3', label: 'Giallo' },
-                    { value: '4', label: 'Arancione' },
-                    { value: '5', label: 'Viola' },
+                    { value: '0', label: 'Rosso Chiaro' },
+                    { value: '1', label: 'Verde Chiaro' },
+                    { value: '2', label: 'Azzurro Chiaro' },
+                    { value: '3', label: 'Giallo Chiaro' },
+                    { value: '4', label: 'Arancione Chiaro' },
+                    { value: '5', label: 'Viola Chiaro' },
+                    { value: '6', label: 'Rosso Scuro' },
+                    { value: '7', label: 'Verde Scuro' },
+                    { value: '8', label: 'Azzurro Scuro' },
+                    { value: '9', label: 'Giallo Scuro' },
+                    { value: '10', label: 'Arancione Scuro' },
+                    { value: '11', label: 'Viola Scuro' },
                 ] %}
 
                 <div class="mb-3 col-md-6">
@@ -98,13 +104,13 @@
                 </div>
             </div>
 
-            <div class="mb-2">
+            {# <div class="mb-2">
                 <label for="termine_saldo" class="form-label fw-bold text-wrap">Caparre:</label>
                 <div name="caparre" type="input-list" data-type="json" fill-function="setupCaparre">
                     
 
                 </div>
-            </div>
+            </div> #}
 
             <div class="mb-3">
                 <label for="termine_saldo" class="form-label fw-bold text-wrap">Termine del saldo:</label>
