@@ -6,6 +6,9 @@ async function fillEvent(id) {
         var cachedData = await apiCache.getCachedOrFetch('/api/event/' + id);
         
         if (cachedData) {
+            clearForm(document.getElementById('form-prenotazione'));
+            clearForm(document.getElementById('form-prenotazione-summary'));
+
             fillForm(cachedData, ['form-prenotazione', 'form-prenotazione-summary']);
 
             var button = document.getElementById('form-prenotazione-summary').querySelector('#open-btn');

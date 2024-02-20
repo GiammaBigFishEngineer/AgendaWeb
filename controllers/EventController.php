@@ -88,15 +88,16 @@ class EventController extends BaseController
 
         $events = EventModel::getByDates($start, $end);
         
-        $keys = ["id", "title", "start", "color"];
+        $keys = ["id", "title", "start", "end", "color"];
 
         foreach ($events as &$event) {
             $event->title = $event->titolo;
+            $event->end = $event->arrivo;
             $event->start = $event->partenza;
             
-            $darken;
-            $event->stato == 1 ? $darken = 35 : $darken = 0;
-            $event->color = EventColor::convert($event->colore)->toHex($darken);
+            // $darken;
+            // $event->stato == 1 ? $darken = 35 : $darken = 0;
+            $event->color = EventColor::convert($event->colore)->toHex(0);
             
             $properties = (array)$event->getData();
 

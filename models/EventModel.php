@@ -46,7 +46,9 @@ class EventModel extends BaseModel implements JsonSerializable
     }
 
     public static function getByDates($start, $end){
-        $query = "SELECT * FROM " . static::$nome_tabella  . ` WHERE partenza BETWEEN {$start} AND {$end};`;
+        // $query = "SELECT * FROM " . static::$nome_tabella  . ` WHERE partenza BETWEEN {$start} AND {$end};`;
+        $query = "SELECT * FROM `" . static::$nome_tabella  . "` WHERE `partenza` BETWEEN '{$start}' AND '{$end}' OR `arrivo` BETWEEN '{$start}' AND '{$end}'";
+
         $sth = DB::get()->prepare($query);
         $sth->execute();
 
@@ -103,40 +105,65 @@ class EventModel extends BaseModel implements JsonSerializable
 }
 
 enum EventColor: int {
-    case ROSSO = 0;
-    case VERDE = 1;
-    case AZZURRO = 2;
-    case GIALLO = 3;
-    case ARANCIONE = 4;
-    case VIOLA = 5;
+    case ROSSO_C = 0;
+    case VERDE_C = 1;
+    case AZZURRO_C = 2;
+    case GIALLO_C = 3;
+    case ARANCIONE_C = 4;
+    case VIOLA_C = 5;
+
+    case ROSSO_S = 6;
+    case VERDE_S = 7;
+    case AZZURRO_S = 8;
+    case GIALLO_S = 9;
+    case ARANCIONE_S = 10;
+    case VIOLA_S = 11;
 
     public function toHex(int $darkness = 0): string {
         switch ($this) {
-            case self::ROSSO:
+            case self::ROSSO_C:
                 return self::darkenHexColor("#FF0000", $darkness);
-            case self::VERDE:
+            case self::VERDE_C:
                 return self::darkenHexColor("#00FF00", $darkness);
-            case self::AZZURRO:
+            case self::AZZURRO_C:
                 return self::darkenHexColor("#4B87FF", $darkness);
-            case self::GIALLO:
+            case self::GIALLO_C:
                 return self::darkenHexColor("#FFFF00", $darkness);
-            case self::ARANCIONE:
+            case self::ARANCIONE_C:
                 return self::darkenHexColor("#FFA500", $darkness);
-            case self::VIOLA:
+            case self::VIOLA_C:
                 return self::darkenHexColor("#8B00FF", $darkness);
+            case self::ROSSO_S:
+                return self::darkenHexColor("#FF0000", $darkness + 35);
+            case self::VERDE_S:
+                return self::darkenHexColor("#00FF00", $darkness + 35);
+            case self::AZZURRO_S:
+                return self::darkenHexColor("#4B87FF", $darkness + 35);
+            case self::GIALLO_S:
+                return self::darkenHexColor("#FFFF00", $darkness + 35);
+            case self::ARANCIONE_S:
+                return self::darkenHexColor("#FFA500", $darkness + 35);
+            case self::VIOLA_S:
+                return self::darkenHexColor("#8B00FF", $darkness + 35);
             default:
                 return "";
         }
     }
 
     public static function convert(int $val): self {
-            return match ($val) {
-            0 => EventColor::ROSSO,
-            1 => EventColor::VERDE,
-            2 => EventColor::AZZURRO,
-            3 => EventColor::GIALLO,
-            4 => EventColor::ARANCIONE,
-            5 => EventColor::VIOLA,
+        return match ($val) {
+            0 => EventColor::ROSSO_C,
+            1 => EventColor::VERDE_C,
+            2 => EventColor::AZZURRO_C,
+            3 => EventColor::GIALLO_C,
+            4 => EventColor::ARANCIONE_C,
+            5 => EventColor::VIOLA_C,
+            6 => EventColor::ROSSO_S,
+            7 => EventColor::VERDE_S,
+            8 => EventColor::AZZURRO_S,
+            9 => EventColor::GIALLO_S,
+            10 => EventColor::ARANCIONE_S,
+            11 => EventColor::VIOLA_S,
             default => throw new Exception('Unknown color value')
         };
     }
