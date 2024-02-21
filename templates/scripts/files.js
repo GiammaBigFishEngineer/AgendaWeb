@@ -49,6 +49,7 @@ function sendFile(event){
     })
     .catch(function (error) {
         console.log(error);
+        setFormMessage(document.getElementById('file-tab-pane'), "error", error.response.data);
     });
 }
 

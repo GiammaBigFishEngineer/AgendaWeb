@@ -234,7 +234,10 @@ function setFormMessage(form, message_type, message, timeout = 7000) {
     setTimeout(function() {
         message_label.classList.add('fade');
 
+        setTimeout(function() { 
         message_label.innerHTML = "";
-
+        message_label.classList.remove('fade');
+        }, 300);
+        
     }, timeout);
 }
