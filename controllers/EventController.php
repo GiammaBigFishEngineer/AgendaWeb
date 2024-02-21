@@ -143,7 +143,14 @@ class EventController extends BaseController
 
             $httpHandler->sendResponse("File added successfully", 200);
         } catch (Exception $e) {
-            $httpHandler->sendResponse("Failed to add file", 500);
+            $error_msg = $e->getMessage();
+
+            if($error_msg != null) {
+                $httpHandler->sendResponse($error_msg, 500);
+            } else {
+                $httpHandler->sendResponse("Failed to add file", 500);
+            }
+
         }
 
     }
