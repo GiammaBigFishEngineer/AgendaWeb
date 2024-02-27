@@ -38,7 +38,7 @@ function clearForm(form, exceptions = []){
         var attr_name = input.getAttribute("name");
       
         if(!exceptions.includes(attr_name)) {
-            if(input.type != "submit" && input.nodeName !== "SELECT") {
+            if(input.type != "submit" && input.type != "radio" && input.nodeName !== "SELECT") {
                 input.value = '';
             }
           
@@ -85,24 +85,26 @@ function fillForm(data, form_ids) {
             const name = element.getAttribute('name');
       
         if (name && data.hasOwnProperty(name)) {
-            if (element.nodeName === 'SELECT') {
-                const selectedValue = data[name];
-                for (let j = 0; j < element.options.length; j++) {
-                    if (element.options[j].value == selectedValue) {
-                        element.selectedIndex = j;
-                        break;
+            if(element.getAttribute("ignore-fill") != "true"){
+                if (element.nodeName === 'SELECT') {
+                    const selectedValue = data[name];
+                    for (let j = 0; j < element.options.length; j++) {
+                        if (element.options[j].value == selectedValue) {
+                            element.selectedIndex = j;
+                            break;
+                        }
                     }
+                } else if (element.type === 'date') {
+                    date = new Date(data[name]);
+                    element.valueAsDate = date;
+                } else if (element.getAttribute('fill-function')) {
+                    const fillFunctionName = element.getAttribute('fill-function');
+                    if (window[fillFunctionName] && typeof window[fillFunctionName] === 'function') {
+                        window[fillFunctionName](data[name]);   
+                    }
+                } else {
+                    element.value = data[name];
                 }
-            } else if (element.type === 'date') {
-                date = new Date(data[name]);
-                element.valueAsDate = date;
-            } else if (element.getAttribute('fill-function')) {
-                const fillFunctionName = element.getAttribute('fill-function');
-                if (window[fillFunctionName] && typeof window[fillFunctionName] === 'function') {
-                    window[fillFunctionName](data[name]);   
-                }
-            } else {
-                element.value = data[name];
             }
         }
     }

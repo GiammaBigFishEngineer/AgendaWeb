@@ -52,6 +52,7 @@
                 <textarea class="form-control" name="note" rows="25" cols="100"></textarea>
             </div>
 
+
             {% set colore_options = [
                 { value: '0', label: 'Rosso Chiaro', color: '#FF0000'},
                 { value: '1', label: 'Verde Chiaro', color: '#00FF00'},
@@ -59,44 +60,87 @@
                 { value: '3', label: 'Giallo Chiaro', color: '#FFFF00'},
                 { value: '4', label: 'Arancione Chiaro', color: '#FFA500'},
                 { value: '5', label: 'Viola Chiaro', color: '#8B00FF' },
-                { value: '6', label: 'Rosso Scuro', color: '#FF0000'},
-                { value: '7', label: 'Verde Scuro', color: '#FF0000'},
-                { value: '8', label: 'Azzurro Scuro', color: '#FF0000' },
-                { value: '9', label: 'Giallo Scuro', color: '#FF0000' },
-                { value: '10', label: 'Arancione Scuro', color: '#FF0000' },
-                { value: '11', label: 'Viola Scuro', color: '#FF0000' },
+                { value: '6', label: 'Rosso Scuro', color: '#800000'},
+                { value: '7', label: 'Verde Scuro', color: '#008000'},
+                { value: '8', label: 'Azzurro Scuro', color: '#2B54A6' },
+                { value: '9', label: 'Giallo Scuro', color: '#CCCC00' },
+                { value: '10', label: 'Arancione Scuro', color: '#A05200' },
+                { value: '11', label: 'Viola Scuro', color: '#55007F' },
             ] %}
 
             <div class="mb-3">
                 <label for="colore" class="form-label fw-bold text-wrap">Colore:</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-palette"></i></span>
-                    <select class="form-select" name="colore" required>
-                    {% for option in colore_options %}
-                        <option value="{{ option.value }}">
-                            <span class="color-dot" style="background-color: {{option.color}}"></span>
-                            {{ option.label }}
-                        </option>
-                    {% endfor %}
-                    </select>
+                <div class="select-box">
+                    <div class="select-box__current" tabindex="1">
+                        {% for option in colore_options %}
+                            <div class="select-box__value">
+                                <input class="select-box__input" type="radio" id="{{ option.value }}" value="{{ option.value }}" name="colore" {% if loop.first %}checked="checked"{% endif %}/>
+                                <p class="select-box__input-text">
+                                    <span class="color-dot" style="background-color: {{ option.color }}"></span>
+                                    {{ option.label }}
+                                </p>
+                            </div>
+                        {% endfor %}
+                        <img class="select-box__icon" src="https://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
+                    </div>
+                    <ul class="select-box__list">
+                        {% for option in colore_options %}
+                            <li>
+                                <label class="select-box__option" for="{{ option.value }}" aria-hidden="aria-hidden">
+                                    {% if option.color %}
+                                        <span class="color-dot" style="background-color: {{ option.color }}"></span>
+                                    {% endif %}
+                                    {{ option.label }}
+                                </label>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
 
-            {# <div class="row">
-
-                {% set stato_options = [
-                    { value: '0', label: 'Non confermato' },
-                    { value: '1', label: 'Confermato' },
-                ] %}
-
-                <div class="mb-3 col-md-6">
-                    <label for="stato" class="form-label fw-bold text-wrap">Stato:</label>
-                    <select class="form-select" name="stato" required>
-                    {% for option in stato_options %}
-                        <option value="{{ option.value }}">{{ option.label }}</option>
-                    {% endfor %}
-                    </select>
+            {# <div class="select-box">
+                <div class="select-box__current" tabindex="1">
+                    <div class="select-box__value">
+                        <input class="select-box__input" type="radio" id="0" value="1" name="colore" checked="checked"/>
+                        <p class="select-box__input-text">Cream</p>
+                    </div>
+                    <div class="select-box__value">
+                        <input class="select-box__input" type="radio" id="1" value="2" name="colore" checked="checked"/>
+                        <p class="select-box__input-text">Cheese</p>
+                    </div>
+                    <div class="select-box__value">
+                        <input class="select-box__input" type="radio" id="2" value="3" name="colore" checked="checked"/>
+                        <p class="select-box__input-text">Milk</p>
+                    </div>
+                    <div class="select-box__value">
+                        <input class="select-box__input" type="radio" id="3" value="4" name="colore" checked="checked"/>
+                        <p class="select-box__input-text">Honey</p>
+                    </div>
+                    <div class="select-box__value">
+                        <input class="select-box__input" type="radio" id="4" value="5" name="colore" checked="checked"/>
+                        <p class="select-box__input-text">Toast</p>
+                    </div><img class="select-box__icon" src="https://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
                 </div>
+                <ul class="select-box__list">
+                    <li>
+                        <label class="select-box__option" for="0" aria-hidden="aria-hidden">Cream</label>
+                    </li>
+                    <li>
+                        <label class="select-box__option" for="1" aria-hidden="aria-hidden">Cheese</label>
+                    </li>
+                    <li>
+                        <label class="select-box__option" for="2" aria-hidden="aria-hidden">Milk</label>
+                    </li>
+                    <li>
+                        <label class="select-box__option" for="3" aria-hidden="aria-hidden">
+                        <span class="color-dot" style="background-color: #FF0000"></span>
+                            Honey
+                        </label>
+                    </li>
+                    <li>
+                        <label class="select-box__option" for="4" aria-hidden="aria-hidden">Toast</label>
+                    </li>
+                </ul>
             </div> #}
 
             <div class="mb-3">

@@ -1,6 +1,15 @@
 const apiCache = new ApiCache();
 const headers = { 'X-Requested-With': 'XMLHttpRequest' }
 
+function selectColorByValue(value) {
+    const options = document.querySelectorAll('#form-prenotazione .select-box__input');
+    options.forEach(option => {
+        if (option.value == value) {
+            option.checked = true;
+        }
+    });
+}
+
 async function fillEvent(id) {
     try {
         var cachedData = await apiCache.getCachedOrFetch('/api/event/' + id);
@@ -10,6 +19,7 @@ async function fillEvent(id) {
             clearForm(document.getElementById('form-prenotazione-summary'));
 
             fillForm(cachedData, ['form-prenotazione', 'form-prenotazione-summary']);
+            selectColorByValue(cachedData["colore"]);
 
             var button = document.getElementById('form-prenotazione-summary').querySelector('#open-btn');
             button.removeAttribute('readonly');
