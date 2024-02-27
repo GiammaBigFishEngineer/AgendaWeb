@@ -52,34 +52,37 @@
                 <textarea class="form-control" name="note" rows="25" cols="100"></textarea>
             </div>
 
-            <div class="row">
-            
-                {% set colore_options = [
-                    { value: '0', label: 'Rosso Chiaro' },
-                    { value: '1', label: 'Verde Chiaro' },
-                    { value: '2', label: 'Azzurro Chiaro' },
-                    { value: '3', label: 'Giallo Chiaro' },
-                    { value: '4', label: 'Arancione Chiaro' },
-                    { value: '5', label: 'Viola Chiaro' },
-                    { value: '6', label: 'Rosso Scuro' },
-                    { value: '7', label: 'Verde Scuro' },
-                    { value: '8', label: 'Azzurro Scuro' },
-                    { value: '9', label: 'Giallo Scuro' },
-                    { value: '10', label: 'Arancione Scuro' },
-                    { value: '11', label: 'Viola Scuro' },
-                ] %}
+            {% set colore_options = [
+                { value: '0', label: 'Rosso Chiaro', color: '#FF0000'},
+                { value: '1', label: 'Verde Chiaro', color: '#00FF00'},
+                { value: '2', label: 'Azzurro Chiaro', color: '#4B87FF'},
+                { value: '3', label: 'Giallo Chiaro', color: '#FFFF00'},
+                { value: '4', label: 'Arancione Chiaro', color: '#FFA500'},
+                { value: '5', label: 'Viola Chiaro', color: '#8B00FF' },
+                { value: '6', label: 'Rosso Scuro', color: '#FF0000'},
+                { value: '7', label: 'Verde Scuro', color: '#FF0000'},
+                { value: '8', label: 'Azzurro Scuro', color: '#FF0000' },
+                { value: '9', label: 'Giallo Scuro', color: '#FF0000' },
+                { value: '10', label: 'Arancione Scuro', color: '#FF0000' },
+                { value: '11', label: 'Viola Scuro', color: '#FF0000' },
+            ] %}
 
-                <div class="mb-3 col-md-6">
-                    <label for="colore" class="form-label fw-bold text-wrap">Colore:</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-palette"></i></span>
-                        <select class="form-select" name="colore" required>
-                        {% for option in colore_options %}
-                            <option value="{{ option.value }}">{{ option.label }}</option>
-                        {% endfor %}
-                        </select>
-                    </div>
+            <div class="mb-3">
+                <label for="colore" class="form-label fw-bold text-wrap">Colore:</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-palette"></i></span>
+                    <select class="form-select" name="colore" required>
+                    {% for option in colore_options %}
+                        <option value="{{ option.value }}">
+                            <span class="color-dot" style="background-color: {{option.color}}"></span>
+                            {{ option.label }}
+                        </option>
+                    {% endfor %}
+                    </select>
                 </div>
+            </div>
+
+            {# <div class="row">
 
                 {% set stato_options = [
                     { value: '0', label: 'Non confermato' },
@@ -94,7 +97,7 @@
                     {% endfor %}
                     </select>
                 </div>
-            </div>
+            </div> #}
 
             <div class="mb-3">
                 <label for="totale" class="form-label fw-bold text-wrap">Totale:</label>
