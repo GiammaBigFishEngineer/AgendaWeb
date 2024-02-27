@@ -92,8 +92,8 @@ class EventController extends BaseController
 
         foreach ($events as &$event) {
             $event->title = $event->titolo;
-            $event->end = $event->arrivo;
-            $event->start = $event->partenza;
+            $event->end = $event->partenza;
+            $event->start = $event->arrivo;
             
             // $darken;
             // $event->stato == 1 ? $darken = 35 : $darken = 0;
