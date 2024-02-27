@@ -96,9 +96,11 @@ class EventModel extends BaseModel implements JsonSerializable
 
     public function validate(): bool
     {
-        $this->totale = str_replace(',', '.', $this->totale);
-        $this->totale = number_format($this->totale, 2, '.', '');
-
+        if(isset($this->totale)) {
+            $this->totale = str_replace(',', '.', $this->totale);
+            $this->totale = number_format($this->totale, 2, '.', '');    
+        }
+        
         return true;
     }
 }
@@ -133,17 +135,17 @@ enum EventColor: int {
             case self::VIOLA_C:
                 return self::darkenHexColor("#8B00FF", $darkness);
             case self::ROSSO_S:
-                return self::darkenHexColor("#FF0000", $darkness + 35);
+                return self::darkenHexColor("#A60000", $darkness);
             case self::VERDE_S:
-                return self::darkenHexColor("#00FF00", $darkness + 35);
+                return self::darkenHexColor("#00A600", $darkness);
             case self::AZZURRO_S:
-                return self::darkenHexColor("#4B87FF", $darkness + 35);
+                return self::darkenHexColor("#0047D6", $darkness);
             case self::GIALLO_S:
-                return self::darkenHexColor("#FFFF00", $darkness + 35);
+                return self::darkenHexColor("#a6a600", $darkness);
             case self::ARANCIONE_S:
-                return self::darkenHexColor("#FFA500", $darkness + 35);
+                return self::darkenHexColor("#a66b00", $darkness);
             case self::VIOLA_S:
-                return self::darkenHexColor("#8B00FF", $darkness + 35);
+                return self::darkenHexColor("#5a00a6", $darkness);
             default:
                 return "";
         }
