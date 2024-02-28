@@ -55,16 +55,21 @@
 
             {% set colore_options = [
                 { value: '0', label: 'Rosso Chiaro', color: '#FF0000'},
-                { value: '1', label: 'Verde Chiaro', color: '#00FF00'},
-                { value: '2', label: 'Azzurro Chiaro', color: '#4B87FF'},
-                { value: '3', label: 'Giallo Chiaro', color: '#FFFF00'},
-                { value: '4', label: 'Arancione Chiaro', color: '#FFA500'},
-                { value: '5', label: 'Viola Chiaro', color: '#8B00FF' },
                 { value: '6', label: 'Rosso Scuro', color: '#800000'},
+
+                { value: '1', label: 'Verde Chiaro', color: '#00FF00'},
                 { value: '7', label: 'Verde Scuro', color: '#008000'},
+
+                { value: '2', label: 'Azzurro Chiaro', color: '#4B87FF'},
                 { value: '8', label: 'Azzurro Scuro', color: '#2B54A6' },
+
+                { value: '3', label: 'Giallo Chiaro', color: '#FFFF00'},
                 { value: '9', label: 'Giallo Scuro', color: '#CCCC00' },
+
+                { value: '4', label: 'Arancione Chiaro', color: '#FFA500'},
                 { value: '10', label: 'Arancione Scuro', color: '#A05200' },
+
+                { value: '5', label: 'Viola Chiaro', color: '#8B00FF' },
                 { value: '11', label: 'Viola Scuro', color: '#55007F' },
             ] %}
 
@@ -90,7 +95,7 @@
                                     {% if option.color %}
                                         <span class="color-dot" style="background-color: {{ option.color }}"></span>
                                     {% endif %}
-                                    {{ option.label }}
+                                    {# {{ option.label }} #}
                                 </label>
                             </li>
                         {% endfor %}

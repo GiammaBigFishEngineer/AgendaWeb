@@ -70,6 +70,8 @@
   background-color: #fff;
 }
 .select-box__list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   position: absolute;
   width: 100%;
   padding: 0;
