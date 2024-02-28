@@ -53,6 +53,15 @@ function submitEventForm(event){
     axios.post(url, formData, { headers })
     .then(function (response) {
         console.log(response);
+
+        if (newEvent) {
+            clearForm(form);
+            hideModal(form.closest(".modal").id);
+        } else {
+            fillEvent(id);
+        }
+    
+        calendar.refetchEvents()
     })
     .catch(function (error) {
         console.log(error);
@@ -67,14 +76,7 @@ function submitEventForm(event){
         setFormMessage(form, "error", error.response.data.message);
     });
 
-    if (newEvent) {
-        clearForm(form);
-        hideModal(form.closest(".modal").id);
-    } else {
-        fillEvent(id);
-    }
 
-    calendar.refetchEvents()
 }
 
 function deleteEvent(event) {
