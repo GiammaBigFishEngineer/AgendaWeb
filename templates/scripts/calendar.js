@@ -54,14 +54,16 @@ function submitEventForm(event){
     .then(function (response) {
         console.log(response);
 
-        if (newEvent) {
-            clearForm(form);
-            hideModal(form.closest(".modal").id);
-        } else {
-            fillEvent(id);
-        }
-    
-        calendar.refetchEvents()
+        setTimeout(() => {
+            if (newEvent) {
+                clearForm(form);
+                hideModal(form.closest(".modal").id);
+            } else {
+                fillEvent(id);
+            }
+            
+            calendar.refetchEvents();
+        }, 100);        
     })
     .catch(function (error) {
         console.log(error);
