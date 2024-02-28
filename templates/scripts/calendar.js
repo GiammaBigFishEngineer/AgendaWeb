@@ -11,9 +11,8 @@ function selectColorByValue(value) {
 }
 
 async function fillEvent(id) {
-    try {
-        var cachedData = await apiCache.getCachedOrFetch('/api/event/' + id);
-        
+    apiCache.getCachedOrFetch('/api/event/' + id)
+    .then(cachedData => {
         if (cachedData) {
             clearForm(document.getElementById('form-prenotazione'));
             clearForm(document.getElementById('form-prenotazione-summary'));
@@ -29,9 +28,10 @@ async function fillEvent(id) {
         } else {
             console.error('Failed to retrieve cached data or fetch from API');
         }
-    } catch (error) {
+    })
+    .catch(error => {
         console.error('An error occurred during data retrieval:', error);
-    }
+    });
 }
 
 function submitEventForm(event){
