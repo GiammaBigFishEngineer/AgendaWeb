@@ -10,6 +10,17 @@ function selectColorByValue(value) {
     });
 }
 
+function toggleViewButton(enable) {
+    var button = document.getElementById('form-prenotazione-summary').querySelector('#open-btn');
+    if (enable) {
+        button.removeAttribute('readonly');
+        button.removeAttribute('disabled');
+    } else {
+        button.setAttribute('readonly', 'readonly');
+        button.setAttribute('disabled', 'disabled');
+    }
+}
+
 async function fillEvent(id) {
     apiCache.getCachedOrFetch('/api/event/' + id)
     .then(cachedData => {
@@ -19,10 +30,7 @@ async function fillEvent(id) {
 
             fillForm(cachedData, ['form-prenotazione', 'form-prenotazione-summary']);
             selectColorByValue(cachedData["colore"]);
-
-            var button = document.getElementById('form-prenotazione-summary').querySelector('#open-btn');
-            button.removeAttribute('readonly');
-            button.removeAttribute('disabled');
+            toggleViewButton(true)
 
             setFileTable(id);
         } else {
@@ -92,13 +100,21 @@ function deleteEvent(event) {
     axios.delete('/api/event/' + id, { headers })
     .then(function (response) {
         console.log(response);
+
+        setTimeout(() => {
+        
+        calendar.refetchEvents()
+        hideModal(form.closest(".modal").id);
+        clearForm(document.getElementById('form-prenotazione-summary'));
+        toggleViewButton(false)
+        
+        }, 100);
     })
     .catch(function (error) {
         console.log(error);
     });
 
-    calendar.refetchEvents()
-    hideModal(form.closest(".modal").id);
+
 }
 
 function printCalendar(){
