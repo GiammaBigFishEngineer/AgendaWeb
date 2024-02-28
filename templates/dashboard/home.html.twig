@@ -193,20 +193,24 @@ function hideLoader() {
             <div class="modal-body">
                 <x-forms.prenotazione-tabs id="form-prenotazione" type="form" tabs={{tabs}}>
                     <x-slot name="general_tab">
+                        <div class="container m-2 float-end">
+                            <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Modifica">
+                            <button class="btn btn-danger" onclick="deleteEvent(event)"><i class="bi bi-trash"></i></button>
+                        </div>
+
                         <x-prenotazione.general>
                         </x-prenotazione.general>
-
-                        <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Modifica">
-                        <button class="btn btn-danger" onclick="deleteEvent(event)"><i class="bi bi-trash"></i></button>
                     </x-slot>
 
 
                     <x-slot name="conteggio_tab">
+                        <div class="container m-2 float-end">
+                            <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Modifica">
+                            <button class="btn btn-danger" onclick="deleteEvent(event)"><i class="bi bi-trash"></i></button>
+                        </div>
+
                         <x-prenotazione.saldo>
                         </x-prenotazione.saldo>
-
-                        <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Modifica">
-                        <button class="btn btn-danger" onclick="deleteEvent(event)"><i class="bi bi-trash"></i></button>
                     </x-slot>
 
 
