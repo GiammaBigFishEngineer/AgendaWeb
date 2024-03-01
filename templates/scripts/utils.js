@@ -243,3 +243,8 @@ function setFormMessage(form, message_type, message, timeout = 7000) {
         
     }, timeout);
 }
+
+function lastElementOfArray(array){
+    const lastElement = array[array.length - 1];
+    return lastElement;
+}
