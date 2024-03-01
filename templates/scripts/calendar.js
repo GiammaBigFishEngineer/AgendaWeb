@@ -347,8 +347,6 @@ function checkCaparreFilled() {
     return isFilled;
 }
 
-onChangeCaparre();
-
 function refreshSaldo() {
     const caparreInputs = Array.from(document.querySelector('[name="caparre"]').querySelectorAll('input'));
     const totalCaparre = caparreInputs.reduce((acc, input) => acc + parseFloat(input.value || 0), 0);
@@ -356,3 +354,7 @@ function refreshSaldo() {
     const saldo = (total - totalCaparre).toFixed(2);
     document.querySelector('[name="saldo"]').value = Math.max(saldo, 0);
 }
+
+
+onChangeCaparre();
+document.querySelector('[name="totale"]').addEventListener('change', refreshSaldo);
