@@ -29,7 +29,7 @@ class EventController extends BaseController
             // Extract the index after "caparra-value-"
             if (strpos($key, 'caparra-value-') === 0) {
                 $index = substr($key, 14); 
-                $caparraData[(int)$index]["value"] = $value;
+                $caparraData[(int)$index]["value"] = $value != "" ? number_format((float)$value, 2, '.', '') : "";
             } 
             if (strpos($key, 'caparra-type-') === 0) {
                 $index = substr($key, 13);
