@@ -302,16 +302,57 @@ function generateCaparraElement(index, item = null){
         return `<div class="d-flex mb-1">
             <div class="input-group mx-1">
                 <span class="input-group-text">€</span>
-                <input type="number" name="caparra-value-${index}" name="caparra-id" class="form-control">
+                <input type="number" name="caparra-value-${index}" name="caparra-id" index="${index}" class="form-control">
             </div>
-            <select class="form-select mx-1" name="caparra-type-${index}">
+            <select class="form-select is-invalid mx-1" name="caparra-type-${index}" index="${index}">
                 <option value="" selected disabled>Tipo Pagamento</option>
                 <option value="bonifico">Bonifico</option>
                 <option value="contanti">Contanti</option>
             </select>
         </div>`
     }
+}
 
+function onChangeCaparre(){
+    const caparreDiv = document.querySelector('[name="caparre"]');
+    caparreDiv.addEventListener('change', (event) => {
+    refreshSaldo()
 
+    if (event.target.tagName === 'SELECT') {
+        if (event.target.value === '') {
+          event.target.classList.add('is-invalid');
+        } else {
+          event.target.classList.remove('is-invalid');
+        }
+      }
 
+    if (event.target.tagName === 'INPUT' || event.target.tagName == "SELECT") {
+        if (checkCaparreFilled()){
+            //Adds an empty input
+            var caparreInputs = Array.from(document.querySelector('[name="caparre"]').querySelectorAll('input'));
+
+            lastEl = Number(lastElementOfArray(caparreInputs).getAttribute("index"))
+
+            // const lastCaparra = caparreInputs[caparreInputs.length].value;
+            var emptyInput = fromHTML(generateCaparraElement(lastEl + 1));
+
+            caparreDiv.appendChild(emptyInput);   
+        }}
+    });
+}
+
+function checkCaparreFilled() {
+    const caparreDiv = document.querySelector('[name="caparre"]');
+    const isFilled = Array.from(caparreDiv.querySelectorAll('input, select')).every(input => input.value.trim() !== '');
+    return isFilled;
+}
+
+onChangeCaparre();
+
+function refreshSaldo() {
+    const caparreInputs = Array.from(document.querySelector('[name="caparre"]').querySelectorAll('input'));
+    const totalCaparre = caparreInputs.reduce((acc, input) => acc + parseFloat(input.value || 0), 0);
+    const total = parseFloat(document.querySelector('[name="totale"]').value);
+    const saldo = (total - totalCaparre).toFixed(2);
+    document.querySelector('[name="saldo"]').value = Math.max(saldo, 0);
 }
