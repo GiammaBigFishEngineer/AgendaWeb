@@ -38,7 +38,7 @@ class EventController extends BaseController
         }
 
         foreach ($caparraData as $index => $caparra) {
-            if ($caparra["type"] === "" || $caparra["value"] === "") {
+            if ($caparra["type"] === "" || !isset($caparra["type"]) || $caparra["value"] === "" || !isset($caparra["value"]) ) {
                 unset($caparraData[$index]);
             }
         }
@@ -92,7 +92,7 @@ class EventController extends BaseController
 
         foreach ($events as &$event) {
             $event->title = $event->titolo;
-            $event->end = $event->partenza;
+            $event->end = Carbon::parse($event->partenza)->addDay()->toDateString();
             $event->start = $event->arrivo;
             
             // $darken;

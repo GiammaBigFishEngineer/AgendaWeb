@@ -88,7 +88,7 @@ function hideLoader() {
                                         highestContrast = contrast;
                                     }
                                 }
-
+                                
                                 return {
                                     id: eventEl.id,
                                     title: eventEl.title,
@@ -237,7 +237,7 @@ function hideLoader() {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <x-forms.prenotazione id="form-new-prenotazione" type="form">
+                <x-forms.prenotazione id="form-new-prenotazione" type="form" new>
                     <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Conferma">    
                 </x-forms.prenotazione>
             </div>

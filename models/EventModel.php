@@ -88,7 +88,8 @@ class EventModel extends BaseModel implements JsonSerializable
             if($val < 0){
                 return 0;
             }
-            return $val;
+
+            return round($val, 2);
         }
 
         return null;

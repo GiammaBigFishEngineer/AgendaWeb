@@ -8,13 +8,13 @@ return
     ],
     'environments' => [
         'default_migration_table' => 'phinxlog',
-        'default_environment' => 'development',
+        'default_environment' => 'production',
         'production' => [
             'adapter' => 'mysql',
-            'host' => '192.168.8.199',
+            'host' => '85.31.237.111',
             'name' => 'Agenda',
-            'user' => 'admin',
-            'pass' => 'pass123',
+            'user' => 'root',
+            'pass' => 'Tempo123!',
             'port' => '3306',
             'charset' => 'utf8',
         ],
