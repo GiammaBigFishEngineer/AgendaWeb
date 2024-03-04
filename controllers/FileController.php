@@ -60,13 +60,20 @@ class FileController
     }
 
     public function addFiles($file, $data){
-        // $documents = [];
         $fileInfo = new FileInfo($this->objPath);
 
+        $maxFileSize = ini_get('upload_max_filesize');
+        $maxFileSizeBytes = self::return_bytes($maxFileSize);
+
         if ($file["error"] != 0) {
-            throw new Exception("File not uploaded");
+            if($file["size"] > $maxFileSizeBytes) {
+                throw new Exception("Il file caricato supera la dimensione massima consentita.");
+            } else{
+                throw new Exception("Errore durante il caricamento file");
+
+            }
         }
-        
+
         $this->checkFileRequirements($file);
         
         if ($file && $data) {
@@ -85,10 +92,25 @@ class FileController
             $fileInfo->addFileInfo($data['id'], $data['name'], $file['name'], $file['type'], $data['upload_date']);
             move_uploaded_file($file["tmp_name"], $this->objPath . $file["name"]);
         } else {
-            throw new Exception("File not uploaded");
+            throw new Exception("Errore durante il caricamento file");
         }
 
+    }
 
+    function return_bytes($val) {
+        $val = trim($val);
+        $last = strtolower($val[strlen($val)-1]);
+        switch($last) {
+            // The 'G' modifier is available since PHP 5.1.0
+            case 'g':
+                $val *= 1024;
+            case 'm':
+                $val *= 1024;
+            case 'k':
+                $val *= 1024;
+        }
+    
+        return $val;
     }
 
     public function deleteFile($id)
@@ -110,13 +132,17 @@ class FileController
 
         // Check the number of files
         if (isset($this->limits['max_files']) && $fileInfo->fileCount() >= $this->limits['max_files']) {
-            throw new \Exception("Number of files exceeds the limit");
+            // throw new \Exception("Number of files exceeds the limit");
+            throw new \Exception("Numero dei file supera il limite");
         }
     
         // Check the size of the file
         if (isset($this->limits['max_size'])) {
             if ($file['size'] > $this->limits['max_size']) {
-                throw new \Exception("File size exceeds the limit");
+                // throw new \Exception("File size exceeds the limit");
+                throw new \Exception("Il file caricato supera la dimensione massima consentita.");
+
+
             }
         }
     }
