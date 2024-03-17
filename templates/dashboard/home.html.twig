@@ -49,10 +49,13 @@ function hideLoader() {
             initialView: 'dayGridMonth',
             //Set's the first date as monday
             firstDay: 1,
-            showNonCurrentDates: false,
+            // showNonCurrentDates: false,
             dateClick: function(info) {
                 showModal("newEventModal")
-                fillForm({"partenza" : info.dateStr}, "form-new-prenotazione")
+                fillForm({
+                    "partenza" : info.dateStr,
+                    "arrivo" : info.dateStr,
+                }, "form-new-prenotazione")
             },
             eventClick: function(info) {
                 fillEvent(info.event.id);
@@ -95,7 +98,8 @@ function hideLoader() {
                                     start: eventEl.start,
                                     end: eventEl.end,
                                     backgroundColor: eventEl.color,
-                                    borderColor: eventEl.color,
+                                    // borderColor: eventEl.color,
+                                    borderColor: "#ffffff",
                                     textColor: curTextColor.toString({format: "hex"}),
                                 } 
                             }
@@ -105,7 +109,15 @@ function hideLoader() {
                 hideLoader()
                 })
             },
-
+            eventDidMount: function(info) {
+                info.el.style.borderWidth = '1px'
+                var tooltip = new bootstrap.Tooltip(info.el, {
+                    title: info.event.title,
+                    placement: 'top',
+                    trigger: 'hover',
+                    container: 'body'
+                });
+            },
             aspectRatio: 1.5,
             handleWindowResize: true,
         });
@@ -151,6 +163,7 @@ function hideLoader() {
                 </div>
             </div>
         </div>
+        
         <div class="col-lg-4 mb-3 d-lg-block" id="summaryColumn">
             <div style="background-color:#EEEEEE; padding: 4px; border-radius: 10px; overflow: hidden;">
                 <h3>Prenotazione</h3>
