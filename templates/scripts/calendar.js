@@ -355,6 +355,16 @@ function refreshSaldo() {
     document.querySelector('[name="saldo"]').value = Math.max(saldo, 0);
 }
 
+function setDateToCurrentMonth(){
+    var calendarApi = calendar.view.currentStart;
+
+    calendarApi.setDate(calendarApi.getDate() + 1);
+
+    fillForm({
+        "partenza" : calendarApi,
+        "arrivo" : calendarApi,
+    }, "form-new-prenotazione")
+}
 
 onChangeCaparre();
 document.querySelector('[name="totale"]').addEventListener('change', refreshSaldo);
