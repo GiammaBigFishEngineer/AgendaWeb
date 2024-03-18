@@ -70,14 +70,24 @@
             .fc ::-webkit-scrollbar-thumb {
                 background-color: inherit;
             }
+
+            /* .fc-scroller.fc-scroller-liquid {
+                overflow-y: hidden !important;
+            } */
+ 
+            .fc-day-grid-container.fc-scroller {
+                height: auto!important;
+                overflow-y: auto;
+            }
+
         </style>
     </head>
 
     <body>
         <x-navbar></x-navbar>
 
-        <div class="d-flex align-items-stretch" style="min-height: 95vh">                
-            <div class="main-content container" style="overflow: auto">
+        <div class="d-flex align-items-stretch" style="min-height: 95vh">
+            <div class="main-content container-fluid">
                 {% block content %}
 
                 {% endblock %}
