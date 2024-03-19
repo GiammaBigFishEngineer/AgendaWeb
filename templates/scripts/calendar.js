@@ -31,7 +31,7 @@ async function fillEvent(id) {
             fillForm(cachedData, ['form-prenotazione', 'form-prenotazione-summary']);
             selectColorByValue(cachedData["colore"]);
 
-            setQuillText("#form-prenotazione #note-editor", (cachedData["note"] != null) ? cachedData["note"] : "[]");
+            setQuillText("#form-prenotazione #note-editor-2", (cachedData["note"] != null) ? cachedData["note"] : "[]");
 
             toggleViewButton(true)
 
@@ -378,7 +378,7 @@ function setupQuill(editorSelector) {
     }
 
     try {
-        const quill = new Quill(editorNode, {
+        var quill = new Quill(editorNode, {
             theme: 'snow',
             modules: {
                 toolbar: [
@@ -388,11 +388,11 @@ function setupQuill(editorSelector) {
             },
         });
 
-        const parent = editorNode.parentNode;
+        var parent = editorNode.parentNode;
 
         quill.on('text-change', () => {
-            const val = quill.getContents();
-            const noteInput = parent.querySelector('input[name="note"]');
+            var val = quill.getContents();
+            var noteInput = parent.querySelector('input[name="note"]');
             if (noteInput) {
                 noteInput.value = JSON.stringify(val);
             } else {
@@ -409,8 +409,8 @@ function setQuillText(editorSelector, text){
         text = "[]";
     }
 
-    const editor = document.querySelector(editorSelector);
-    const quill = new Quill(editor);
+    var editor = document.querySelector(editorSelector);
+    var quill = Quill.find(editor);
 
     let parsedText;
     try {
@@ -428,10 +428,7 @@ document.addEventListener("DOMContentLoaded", function() {
     onChangeCaparre();
     document.querySelector('[name="totale"]').addEventListener('change', refreshSaldo);
 
-    var editors = ["#viewEventModal #note-editor", "#newEventModal #note-editor"]
-    // foreach (editor in editors) {
-    //     setupQuill(editor)
-    // }
+    var editors = ["#viewEventModal #note-editor-2", "#newEventModal #note-editor"]
     
     editors.forEach(editor => {
         setupQuill(editor)
