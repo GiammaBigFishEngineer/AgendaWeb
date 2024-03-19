@@ -30,6 +30,9 @@ async function fillEvent(id) {
 
             fillForm(cachedData, ['form-prenotazione', 'form-prenotazione-summary']);
             selectColorByValue(cachedData["colore"]);
+
+            setQuillText("#form-prenotazione #note-editor", (cachedData["note"] != null) ? cachedData["note"] : "[]");
+
             toggleViewButton(true)
 
             setFileTable(id);
@@ -320,11 +323,11 @@ function onChangeCaparre(){
 
     if (event.target.tagName === 'SELECT') {
         if (event.target.value === '') {
-          event.target.classList.add('is-invalid');
+            event.target.classList.add('is-invalid');
         } else {
-          event.target.classList.remove('is-invalid');
+            event.target.classList.remove('is-invalid');
         }
-      }
+    }
 
     if (event.target.tagName === 'INPUT' || event.target.tagName == "SELECT") {
         if (checkCaparreFilled()){
@@ -366,5 +369,62 @@ function setDateToCurrentMonth(){
     }, "form-new-prenotazione")
 }
 
-onChangeCaparre();
-document.querySelector('[name="totale"]').addEventListener('change', refreshSaldo);
+function setupQuill(editorSelector) {
+    const editorNode = document.querySelector(editorSelector);
+
+    if (!editorNode) {
+        console.error("Editor node not found");
+        return;
+    }
+
+    try {
+        const quill = new Quill(editorNode, {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ header: [1, 2, false] }],
+                    ['bold', 'italic', 'underline'],
+                ],
+            },
+        });
+
+        const parent = editorNode.parentNode;
+
+        quill.on('text-change', () => {
+            const val = quill.getContents();
+            const noteInput = parent.querySelector('input[name="note"]');
+            if (noteInput) {
+                noteInput.value = JSON.stringify(val);
+            } else {
+                console.error("Note input not found");
+            }
+        });
+    } catch (error) {
+        console.error("Error setting up Quill:", error);
+    }
+}
+
+function setQuillText(editor, text){
+    if(text == undefined){
+        text = "[]"
+    }
+
+    editor = document.querySelector(editor);
+    editor = Quill.find(editor)
+
+    editor.setContents(JSON.parse(text));
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    onChangeCaparre();
+    document.querySelector('[name="totale"]').addEventListener('change', refreshSaldo);
+
+    var editors = ["#viewEventModal #note-editor", "#newEventModal #note-editor"]
+    // foreach (editor in editors) {
+    //     setupQuill(editor)
+    // }
+    
+    editors.forEach(editor => {
+        setupQuill(editor)
+    });
+})
