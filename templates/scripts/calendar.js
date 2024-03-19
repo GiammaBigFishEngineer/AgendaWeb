@@ -404,15 +404,24 @@ function setupQuill(editorSelector) {
     }
 }
 
-function setQuillText(editor, text){
-    if(text == undefined){
-        text = "[]"
+function setQuillText(editorSelector, text){
+    if(text === undefined){
+        text = "[]";
     }
 
-    editor = document.querySelector(editor);
-    editor = Quill.find(editor)
+    const editor = document.querySelector(editorSelector);
+    const quill = new Quill(editor);
 
-    editor.setContents(JSON.parse(text));
+    let parsedText;
+    try {
+        parsedText = JSON.parse(text);
+        quill.setContents(parsedText);
+    } catch (error) {
+        // If parsing fails, use the text as is
+        parsedText = text;
+        quill.setText(parsedText);
+    }
+
 }
 
 document.addEventListener("DOMContentLoaded", function() {
