@@ -15,19 +15,21 @@
 </style>
 
 <script>
-// To show the loader overlay
-function showLoader() {
-    document.getElementById('loaderOverlay').classList.remove('d-none');
-}
+    // To show the loader overlay
+    function showLoader() {
+        document.getElementById('loaderOverlay').classList.remove('d-none');
+    }
 
-// To hide the loader overlay
-function hideLoader() {
-    document.getElementById('loaderOverlay').classList.add('d-none');
-}
+    // To hide the loader overlay
+    function hideLoader() {
+        document.getElementById('loaderOverlay').classList.add('d-none');
+    }
 </script>
 
-{# Color Contrast #}
+{# Fullcalendar #}
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+
+{# Color Contrast #}
 <script src="https://colorjs.io/dist/color.global.js"></script>
 
 {# PDF Making #}
@@ -40,6 +42,11 @@ function hideLoader() {
 
 {# Note Editor #}
 <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+
+{# Date Picker #}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/it.js"></script>
 
 <script>
     var calendar;
@@ -157,6 +164,18 @@ function hideLoader() {
 </div>
 
 <div class="container-fluid mx-1">
+    
+    <div class="d-flex mb-2">
+        <div class="row">
+            <div class="col-20">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="datepicker" placeholder="Seleziona Mese e Anno">
+                    <button class="btn btn-primary" id="btn_gotoDateCal">Vai a data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg-8 mb-3 position-relative" id="calendarColumn">
             <div id='calendar' class="print-container"></div>

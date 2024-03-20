@@ -433,4 +433,30 @@ document.addEventListener("DOMContentLoaded", function() {
     editors.forEach(editor => {
         setupQuill(editor)
     });
+
+    calendar.gotoDate("2025-05-01")
+
+    var pickedGoto = flatpickr("#datepicker", {
+        locale: "it",
+        plugins: [
+            new monthSelectPlugin({
+                shorthand: true,
+                dateFormat: "F Y",
+                altFormat: "F Y",
+                theme: "light" 
+            })
+        ]
+    });
+
+    var gotoBtn = document.getElementById("btn_gotoDateCal");
+    gotoBtn.addEventListener("click", function() {
+        calendarGoTo(pickedGoto);
+    });
 })
+
+function calendarGoTo(fp){
+    if(fp.selectedDates[0] !== undefined){
+        date = fp.selectedDates[0]
+        calendar.gotoDate(date)
+    }
+}
