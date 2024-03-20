@@ -48,6 +48,9 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/it.js"></script>
 
+{# Draggable Modals #}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/interact.min.js"></script>
+
 <script>
     var calendar;
 
@@ -217,11 +220,11 @@
 
 {# Modify Event Modal #}
 <form id="fileForm"></form>
-<div class="modal modal-lg fade" id="viewEventModal" tabindex="-1" aria-hidden="true">
+<div class="modal draggable-modal modal-lg fade" id="viewEventModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Prenotazione</h5>
+                <h5 class="modal-title user-select-none">Prenotazione</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
@@ -264,11 +267,11 @@
 </div>
 
 {# Create New Event Modal #}
-<div class="modal fade" id="newEventModal" tabindex="-1" aria-hidden="true">
+<div class="modal draggable-modal fade" id="newEventModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Aggiungi Prenotazione</h5>
+                <h5 class="modal-title user-select-none">Aggiungi Prenotazione</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

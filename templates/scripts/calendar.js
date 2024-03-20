@@ -171,68 +171,6 @@ function printCalendar(){
             }
         });
     }, 0);
-
-
-
-    // var existingPrintStyle = table.querySelector('style[type="text/css"]:not([media])'); // Check for a style element without media attribute
-
-    // if (!existingPrintStyle) {
-    //     // Create the style element
-    //     var styleNode = document.createElement('style');
-    //     styleNode.media = 'print'; // Set the media attribute to print
-    //     // styleNode.innerHTML = '* { page-break-inside: avoid; } table { border-collapse: collapse; } table th, table td { border: 1px solid #000; padding: 0.5em; }'; // Set the CSS styles for print
-    //     styleNode.innerHTML = `
-    //     * {
-    //         page-break-inside: avoid; 
-    //     }
-    //     table {
-    //         width: 100%; /* Set the table width to 100% */
-    //         table-layout: fixed; /* Fix the table layout */
-    //     }
-    //     th, td {
-    //         width: 100px; /* Set a fixed width for table cells */
-    //         word-wrap: break-word; /* Allow long content to wrap within cells */
-    //     }
-    //     @media print {
-    //         .print-container {
-    //             position: fixed; /* Set the container's position to fixed */
-    //             top: 0; /* Adjust the top position as needed */
-    //             left: 0; /* Adjust the left position as needed */
-    //             width: 100%; /* Set the width to 100% */
-    //         }
-    //         table {
-    //             width: 100%; /* Set the table width to 100% for print */
-    //             border-collapse: collapse;
-    //         }
-    //         th, td {
-    //             width: 85px; /* Set a fixed width for table cells for print */
-    //             border: 1px solid #000; 
-    //         }
-    //     }
-    //     `;
-        
-    //     // Append the style node as a child to the table
-    //     table.appendChild(styleNode);
-    // }
-
-    //Get the dates for the header
-    // const currentDate = calendar.getDate();
-    // const currentMonth = currentDate.toLocaleString('en', { month: 'long' });
-    // const currentYear = currentDate.getFullYear();
-
-    //Expands calendar
-    // toggleSummaryColumn()
-    // calendar.render()
-
-    // //Prints and sets it back as it was before
-    // setTimeout(function(){
-    //     printJS({ printable: table, type: 'html', header: '<h3>' + currentMonth + ' ' + currentYear + '</h3>', style: '@page { size: A4 landscape }'})
-    //     // toggleSummaryColumn()
-    //     calendar.render()
-
-    // }, 500)
-
-    // printJS({ printable: table, type: 'html', header: '<h1>' + currentMonth + ' ' + currentYear + '</h1>', style: '@page { size: A4 landscape }'})
 }
 
 // JavaScript to dynamically adjust column width when the second column is hidden
@@ -428,14 +366,14 @@ document.addEventListener("DOMContentLoaded", function() {
     onChangeCaparre();
     document.querySelector('[name="totale"]').addEventListener('change', refreshSaldo);
 
+    // Note editors
     var editors = ["#viewEventModal #note-editor-2", "#newEventModal #note-editor"]
     
     editors.forEach(editor => {
         setupQuill(editor)
     });
 
-    calendar.gotoDate("2025-05-01")
-
+    // Go to year/month date picker
     var pickedGoto = flatpickr("#datepicker", {
         locale: "it",
         plugins: [
@@ -452,7 +390,49 @@ document.addEventListener("DOMContentLoaded", function() {
     gotoBtn.addEventListener("click", function() {
         calendarGoTo(pickedGoto);
     });
+
+    //Allow Modals to be draggable
+    setDraggableModals();
 })
+
+function setDraggableModals(){
+    interact('.draggable-modal .modal-dialog')
+    .draggable({
+        allowFrom: '.modal-header',
+        modifiers: [
+            interact.modifiers.restrictRect({
+                restriction: 'parent'
+            })
+        ],
+        listeners: {
+            move(event) {
+                const target = event.target;
+                const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+                const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+                function animate() {
+                    target.style.transform = `translate(${x}px, ${y}px)`;
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
+                    requestAnimationFrame(animate);
+                }
+                animate();
+            }
+        }
+    });
+
+    var modals = document.querySelectorAll('.draggable-modal');
+    modals.forEach(function(modal){
+        modal.addEventListener('hidden.bs.modal', function () {
+            var modal_dialogue = modal.querySelector('.modal-dialog');
+
+            modal_dialogue.style.transform = '';    
+            modal_dialogue.setAttribute('data-x', 0);
+            modal_dialogue.setAttribute('data-y', 0);
+        });
+    })
+
+}
 
 function calendarGoTo(fp){
     if(fp.selectedDates[0] !== undefined){
