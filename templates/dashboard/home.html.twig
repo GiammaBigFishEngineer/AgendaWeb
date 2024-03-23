@@ -167,7 +167,6 @@
 </div>
 
 <div class="container-fluid mx-1">
-    
     <div class="d-flex mb-2">
         <div class="row">
             <div class="col-20">
@@ -180,7 +179,7 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-8 mb-3 position-relative" id="calendarColumn">
+        <div class="col-lg-9 mb-3 position-relative" id="calendarColumn">
             <div id='calendar' class="print-container"></div>
             <div class="loader-overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center" id="loaderOverlay">
                 <div class="spinner-border text-primary" role="status">
@@ -189,7 +188,7 @@
             </div>
         </div>
         
-        <div class="col-lg-4 mb-3 d-lg-block" id="summaryColumn">
+        <div class="col-lg-3 mb-3 d-lg-block" id="summaryColumn">
             <div style="background-color:#EEEEEE; padding: 4px; border-radius: 10px; overflow: hidden;">
                 <h3>Prenotazione</h3>
                 <x-forms.prenotazione class="short" id="form-prenotazione-summary" class="readonly-form" short type="div">
@@ -199,6 +198,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 {% set tabs = [
