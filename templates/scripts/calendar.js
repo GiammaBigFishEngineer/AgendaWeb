@@ -68,6 +68,7 @@ function submitEventForm(event){
         setTimeout(() => {
             if (newEvent) {
                 clearForm(form);
+                setQuillText('#note-editor', "[]");
                 hideModal(form.closest(".modal").id);
             } else {
                 fillEvent(id);
@@ -299,7 +300,7 @@ function refreshSaldo() {
 function setDateToCurrentMonth(){
     var calendarApi = calendar.view.currentStart;
 
-    calendarApi.setDate(calendarApi.getDate() + 1);
+    calendarApi.setDate(calendarApi.getDate());
 
     fillForm({
         "partenza" : calendarApi,
