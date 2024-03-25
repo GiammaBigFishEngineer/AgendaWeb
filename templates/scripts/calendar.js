@@ -300,7 +300,7 @@ function refreshSaldo() {
 function setDateToCurrentMonth(){
     var calendarApi = calendar.view.currentStart;
 
-    calendarApi.setDate(calendarApi.getDate());
+    calendarApi.setDate(calendarApi.getDate() + 1);
 
     fillForm({
         "partenza" : calendarApi,
