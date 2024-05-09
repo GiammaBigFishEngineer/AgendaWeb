@@ -26,7 +26,7 @@ class MailUtils {
         if(EnvLoader::getValue("APP_DEBUG") == true){
             $this->mail->SMTPDebug = SMTP::DEBUG_SERVER;                  //Enable verbose debug output
         }
-        
+
         $this->mail->isSMTP();                                            //Send using SMTP
         $this->mail->CharSet = "UTF-8";
 
@@ -42,7 +42,7 @@ class MailUtils {
             $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;           //Enable implicit TLS encryption
         }
 
-        
+
         $this->mail->SMTPOptions = array(
             'ssl' => array(
                 'verify_peer' => false,
@@ -50,7 +50,7 @@ class MailUtils {
                 'allow_self_signed' => true,
             )
         );
-        
+
     }
 
     public function sendMail(string $recipient, string $subject, string $body, bool $html = true){
@@ -60,12 +60,9 @@ class MailUtils {
                 //Add a recipient
                 $this->mail->addAddress($recipient);
 
-                //Attachments
-                //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-                //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
 
                 //Content
-                $this->mail->isHTML($html);                             //Set email format to HTML
+                $this->mail->isHTML(true);                             //Set email format to HTML
                 $this->mail->Subject = $subject;
                 $this->mail->Body = $body;
                 //self::$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
@@ -73,10 +70,9 @@ class MailUtils {
                 $this->mail->send();
                 // echo 'Message has been sent';
             } catch (Exception $e) {
-                // echo "Message could not be sent. Mailer Error: " . $this->mail->ErrorInfo;
+                // error_log("Message could not be sent. Mailer Error: " . $this->mail->ErrorInfo);
             }
         }
 
 
     }
-?>

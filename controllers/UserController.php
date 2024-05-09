@@ -4,6 +4,8 @@ require_once('BaseController.php');
 require_once(__ROOT__ . '/models/UserModel.php');
 require_once(__ROOT__ . '/models/PasswordResetModel.php');
 require_once(__ROOT__ . '/views/UserView.php');
+require_once(__ROOT__ . '/views/MailView.php');
+require_once(__ROOT__ . '/utils/MailUtils.php');
 
 require_once __ROOT__ . "/utils/HttpHandler.php";
 
@@ -33,12 +35,20 @@ class UserController extends BaseController
 
         if($user = UserModel::whereEmail($data["email"])) {
             $reset->id_user = $user->id;
-            $reset->key = "test";
-            $reset->approved = null;
+            $reset->token = PasswordResetModel::generateKey();
+            $reset->approved = 0;
             $reset->requested_at = date('Y-m-d H:i:s');
 
             $reset->save();
             $_SESSION['success'] = "Richiesta inviata, controlla la tua casella di posta";
+
+            #Send Emails
+            $mailView = new MailView();
+            $mail = new MailUtils();
+            $mail->sendMail($user->email, "Reset della password", $mailView->renderForgotten($reset->token));
+            $mail->sendMail(EnvLoader::getValue("ADMIN"), "Richiesta reset della password", $mailView->renderAuthorizeRequest($reset->id_user, $user->email, $reset->requested_at, $reset->token));
+            ob_clean();
+
         } else {
             $_SESSION['error'] = "Email non trovata";
         }

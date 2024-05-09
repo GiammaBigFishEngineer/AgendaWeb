@@ -73,6 +73,7 @@ class BaseModel
         $updates_str = implode(',', $updates);
         $sql = "INSERT INTO " . static::$nome_tabella . " ($this->_columns) VALUES ($this->_bind_columns) ON DUPLICATE KEY UPDATE $updates_str";
         $sth = DB::get()->prepare($sql);
+
         $sth->execute($this->_values);
 
         if (isset($this->_values["id"]) && $this->_values["id"] != '') {
@@ -141,7 +142,7 @@ class BaseModel
 
         return $entities;
     }
-    
+
     public static function get(int $id)
     {
         $query = "SELECT * FROM " . static::$nome_tabella  . " WHERE id=:id";
@@ -150,7 +151,7 @@ class BaseModel
             'id' => $id,
         ]);
         $row = $sth->fetch();
-        
+
         $model = new static(($row == false) ? [] : $row);
 
         if($model->calculated_fields) {
