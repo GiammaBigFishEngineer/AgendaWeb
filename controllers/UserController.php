@@ -2,6 +2,7 @@
 require_once('BaseController.php');
 
 require_once(__ROOT__ . '/models/UserModel.php');
+require_once(__ROOT__ . '/models/PasswordResetModel.php');
 require_once(__ROOT__ . '/views/UserView.php');
 
 require_once __ROOT__ . "/utils/HttpHandler.php";
@@ -9,14 +10,42 @@ require_once __ROOT__ . "/utils/HttpHandler.php";
 class UserController extends BaseController
 {
     protected static $model = UserModel::class;
-    public static function showLogin(){
+    public static function showLogin() {
         $view = new UserView();
         $view->renderLogin();
     }
 
-    public static function showHome(){
+    public static function showHome() {
         $view = new UserView();
         $view->renderHome();
+    }
+
+    public static function showForgotPassword() {
+        $view = new UserView();
+        $view->renderForgottedPassword();
+    }
+
+    public static function requestPasswordReset()
+    {
+        $httpHandler = new HttpHandler;
+        $data = $httpHandler->handleRequest();
+        $reset = new PasswordResetModel();
+
+        if($user = UserModel::whereEmail($data["email"])) {
+            $reset->id_user = $user->id;
+            $reset->key = "test";
+            $reset->approved = null;
+            $reset->requested_at = date('Y-m-d H:i:s');
+
+            $reset->save();
+            $_SESSION['success'] = "Richiesta inviata, controlla la tua casella di posta";
+        } else {
+            $_SESSION['error'] = "Email non trovata";
+        }
+
+
+
+        header("Location: /forgot_password");
     }
 
     public static function login() {

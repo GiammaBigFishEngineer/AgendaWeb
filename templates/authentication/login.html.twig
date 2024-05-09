@@ -4,7 +4,7 @@
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-4">
+        <div class="col-md-5">
             <h2 class="mb-4">Login</h2>
             <form action="/login" method="post">
                 <div class="form-group my-2">
@@ -17,14 +17,21 @@
                     <input type="password" class="form-control" id="password" name="password" required>
                 </div>
                 
-                <p class="text-danger">{{session.error}}</p>
+                <p class="text-danger">{{ session.error }}</p>
 
-                <div class="float-end">
-                    <button type="submit" class="btn btn-primary">Accedi</button>
+                <div class="align-middle">
+                    <div class="float-end">
+                        <button type="submit" class="btn btn-primary">Accedi</button>
+                    </div>
+                    <div>
+                        <a href="/forgot_password" class="text-muted">Password dimenticata?</a>
+                    </div>  
+
                 </div>
-
             </form>
         </div>
+
+
     </div>
 </div>
 

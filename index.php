@@ -121,6 +121,14 @@ class Dispatcher
                     if($this->method == RequestMethod::GET) {
                         UserController::showLogin();
                     }
+                },
+                "/forgot_password" => function ($params) {
+                    if ($this->method == RequestMethod::GET) {
+                        UserController::showForgotPassword();
+                    }
+                    if ($this->method == RequestMethod::POST) {
+                        UserController::requestPasswordReset();
+                    }
                 }
             ];
         }
