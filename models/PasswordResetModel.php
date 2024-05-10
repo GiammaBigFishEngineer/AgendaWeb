@@ -11,6 +11,7 @@ class PasswordResetModel extends BaseModel
         "id",
         "id_user",
         "token",
+        "authorize_token",
         "approved",
         "requested_at",
     ];

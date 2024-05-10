@@ -1,6 +1,6 @@
 <?php
 /*
- * DISPATCHER BASATO SU MVC, OGNI URL USA UN CONTROLLER PER ACCEDERE 
+ * DISPATCHER BASATO SU MVC, OGNI URL USA UN CONTROLLER PER ACCEDERE
  * AL MODELLO E INTERFACCIARSI CON UNA VIEW
 */
 /*
@@ -42,7 +42,7 @@ class Dispatcher
         $this->path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
         // $this->path_segments = explode('/', $this->path);
     }
-    
+
     public function isRoute(string $method, string $route, array ...$handlers): int
     {
         global $params;
@@ -59,7 +59,7 @@ class Dispatcher
                         // EventController::getFiles($params['id']);
                     }
 
-                    if($this->method == RequestMethod::DELETE) { 
+                    if($this->method == RequestMethod::DELETE) {
                         EventController::deleteFiles($params['id'], $params['file_id']);
                     }
                 },
@@ -121,6 +121,9 @@ class Dispatcher
                     if($this->method == RequestMethod::GET) {
                         UserController::showLogin();
                     }
+
+                    unset($_SESSION['success']);
+                    unset($_SESSION['error']);
                 },
                 "/forgot_password" => function ($params) {
                     if ($this->method == RequestMethod::GET) {
@@ -129,16 +132,35 @@ class Dispatcher
                     if ($this->method == RequestMethod::POST) {
                         UserController::requestPasswordReset();
                     }
+
+                    unset($_SESSION['success']);
+                    unset($_SESSION['error']);
+                },
+                "/reset_password" => function ($params) {
+                    if ($this->method == RequestMethod::GET) {
+                        UserController::showResetPassword();
+                    }
+                    if ($this->method == RequestMethod::POST) {
+                        UserController::resetPassword();
+                    }
+
+                    unset($_SESSION['success']);
+                    unset($_SESSION['error']);
+                },
+                "/authorize" => function($params) {
+                    UserController::authorizeReset();
                 }
             ];
         }
 
         $this->route($routeHandlers);
+
+
     }
 
     private function route($routeHandlers){
         $matched = false;
-    
+
         //Cerca se il path attuale corrisponde un pattern
         foreach ($routeHandlers as $routePattern => $handler) {
             $params = $this->matchRoutePattern($routePattern);
@@ -149,7 +171,7 @@ class Dispatcher
                 break;
             }
         }
-    
+
         if (!$matched) {
             $this->page_404();
         }
@@ -158,9 +180,9 @@ class Dispatcher
     private function matchRoutePattern($pattern): ?array {
         $pathSegments = explode('/', $this->path);
         $patternSegments = explode('/', $pattern);
-    
+
         $params = [];
-    
+
         //If the parameter count is not the same
         if (count($pathSegments) !== count($patternSegments)) {
             return null;
@@ -180,7 +202,7 @@ class Dispatcher
 
         return $params;
     }
-    
+
 
     function json(mixed $data)
     {
@@ -222,7 +244,7 @@ class Dispatcher
     //             echo(EventController::get($params['id']));
     //         },
     //         default => fn() => $this->json(['err' => 'Route not found!'])
-    //     })();        
+    //     })();
     // }
 }
 

@@ -27,6 +27,61 @@ class UserController extends BaseController
         $view->renderForgottedPassword();
     }
 
+    public static function showResetPassword() {
+        $httpHandler = new HttpHandler;
+        $data = $_GET;
+
+        if (isset($data["token"])) {
+            $reset = PasswordResetModel::where(["token" => $data["token"]])[0];
+        }
+
+        if(!isset($reset) || !$reset) {
+            // $_SESSION['error'] = "Link di reset non valido";
+        }
+
+        $view = new UserView();
+        $view->renderResetPassword($reset);
+    }
+
+    public static function resetPassword()
+    {
+        $httpHandler = new HttpHandler;
+        $data = $httpHandler->handleRequest();
+
+        $password_reset = PasswordResetModel::where(["token" => $data["token"]])[0];
+        if(!isset($password_reset) || !$password_reset) {
+            $_SESSION['error'] = "Link di reset non valido";
+            header("Location: /");
+        }
+
+        if($password_reset->approved != 1) {
+            $_SESSION['error'] = "Link di reset non valido";
+            header("Location: /");
+        }
+
+        if(strlen($data['new_password']) < 5) {
+            $_SESSION['error'] = "Password troppo corta";
+            if(isset($_SERVER['HTTP_REFERER'])){
+                header("Location: " . $_SERVER['HTTP_REFERER']);
+            } else {
+                header("Location: /");
+            }
+        }
+
+        //Get user by token
+        $id_user = $password_reset->id_user;
+
+        $user = UserModel::get($id_user);
+        $user->password = password_hash($data['new_password'], PASSWORD_DEFAULT);
+        $user->save();
+
+        //Password has been changed, delete
+        PasswordResetModel::delete($password_reset->id);
+
+        $_SESSION['success'] = "Password cambiata con successo!";
+        header("Location: /login");
+    }
+
     public static function requestPasswordReset()
     {
         $httpHandler = new HttpHandler;
@@ -36,6 +91,7 @@ class UserController extends BaseController
         if($user = UserModel::whereEmail($data["email"])) {
             $reset->id_user = $user->id;
             $reset->token = PasswordResetModel::generateKey();
+            $reset->authorize_token = PasswordResetModel::generateKey();
             $reset->approved = 0;
             $reset->requested_at = date('Y-m-d H:i:s');
 
@@ -46,8 +102,8 @@ class UserController extends BaseController
             $mailView = new MailView();
             $mail = new MailUtils();
             $mail->sendMail($user->email, "Reset della password", $mailView->renderForgotten($reset->token));
-            $mail->sendMail(EnvLoader::getValue("ADMIN"), "Richiesta reset della password", $mailView->renderAuthorizeRequest($reset->id_user, $user->email, $reset->requested_at, $reset->token));
-            ob_clean();
+            $mail->sendMail(EnvLoader::getValue("ADMIN"), "Richiesta reset della password", $mailView->renderAuthorizeRequest($reset->id_user, $user->email, $reset->requested_at, $reset->token, $reset->authorize_token));
+            // ob_clean();
 
         } else {
             $_SESSION['error'] = "Email non trovata";
@@ -56,6 +112,21 @@ class UserController extends BaseController
 
 
         header("Location: /forgot_password");
+    }
+
+    public static function authorizeReset()
+    {
+        $httpHandler = new HttpHandler;
+        // $data = $httpHandler->handleRequest();
+        $data = $_GET;
+
+        $reset = PasswordResetModel::where(["token" => $data["token"], "authorize_token" => $data["authorize_token"]])[0];
+        if(isset($reset) || $reset) {
+            $reset->approved = 1;
+            $reset->save();
+        }
+
+        header("Location: /");
     }
 
     public static function login() {

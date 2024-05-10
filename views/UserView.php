@@ -20,6 +20,13 @@ class UserView extends BaseView
         ]);
     }
 
+    public function renderResetPassword($reset)
+    {
+        echo $this->twig->render('authentication/reset_password.html.twig', [
+            "reset" => $reset
+        ]);
+    }
+
     public function renderForgottedPassword()
     {
         echo $this->twig->render('authentication/forgotten_password.html.twig',
