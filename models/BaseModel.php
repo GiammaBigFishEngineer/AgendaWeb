@@ -154,7 +154,7 @@ class BaseModel
 
         $model = new static(($row == false) ? [] : $row);
 
-        if($model->calculated_fields) {
+        if(isset($model) && isset($model->calculated_fields) && $model->calculated_fields) {
             foreach($model->calculated_fields as $key) {
                 $method = 'get' . ucfirst($key);
 
