@@ -71,7 +71,7 @@ class MailUtils {
             $this->mail->send();
             // echo 'Message has been sent';
         } catch (Exception $e) {
-            // error_log("Message could not be sent. Mailer Error: " . $this->mail->ErrorInfo);
+            error_log("Message could not be sent. Mailer Error: " . $this->mail->ErrorInfo);
         }
     }
 }
