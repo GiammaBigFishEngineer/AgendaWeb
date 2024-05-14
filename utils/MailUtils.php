@@ -57,7 +57,7 @@ class MailUtils {
     public function sendMail(string $recipient, string $subject, string $body, bool $html = true){
         try {
             //Recipients
-            $this->mail->setFrom(EnvLoader::getValue("SMTP_USER"), EnvLoader::getValue("SMTP_NAME"));
+            $this->mail->setFrom(EnvLoader::getValue("SMTP_FROM"), EnvLoader::getValue("SMTP_NAME"));
             //Add a recipient
             $this->mail->clearAllRecipients();
             $this->mail->addAddress($recipient);
