@@ -3,6 +3,8 @@
 {% block content %}
 
 <div class="container mt-5">
+    <x-flashdata></x-flashdata>
+
     <div class="row justify-content-center">
         <div class="col-md-5">
             <h2 class="mb-4">Login</h2>
@@ -16,7 +18,7 @@
                     <label for="password" class="fw-bold mb-1">Password:</label>
                     <input type="password" class="form-control" id="password" name="password" required>
                 </div>
-                
+
                 <p class="text-danger">{{ session.error }}</p>
 
                 <div class="align-middle">
@@ -25,7 +27,7 @@
                     </div>
                     <div>
                         <a href="/forgot_password" class="text-muted">Password dimenticata?</a>
-                    </div>  
+                    </div>
 
                 </div>
             </form>

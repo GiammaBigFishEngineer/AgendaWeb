@@ -120,32 +120,27 @@ class Dispatcher
                     }
                     if($this->method == RequestMethod::GET) {
                         UserController::showLogin();
+                        self::clearFlashdata();
                     }
-
-                    unset($_SESSION['success']);
-                    unset($_SESSION['error']);
                 },
                 "/forgot_password" => function ($params) {
                     if ($this->method == RequestMethod::GET) {
                         UserController::showForgotPassword();
+                        self::clearFlashdata();
                     }
                     if ($this->method == RequestMethod::POST) {
                         UserController::requestPasswordReset();
                     }
-
-                    unset($_SESSION['success']);
-                    unset($_SESSION['error']);
                 },
                 "/reset_password" => function ($params) {
                     if ($this->method == RequestMethod::GET) {
                         UserController::showResetPassword();
+                        self::clearFlashdata();
                     }
                     if ($this->method == RequestMethod::POST) {
                         UserController::resetPassword();
                     }
 
-                    unset($_SESSION['success']);
-                    unset($_SESSION['error']);
                 },
                 "/authorize" => function($params) {
                     UserController::authorizeReset();
@@ -246,6 +241,12 @@ class Dispatcher
     //         default => fn() => $this->json(['err' => 'Route not found!'])
     //     })();
     // }
+
+    public function clearFlashdata()
+    {
+        unset($_SESSION['success']);
+        unset($_SESSION['error']);
+    }
 }
 
 enum RequestMethod: string {

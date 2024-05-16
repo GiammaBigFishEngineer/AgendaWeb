@@ -1,0 +1,10 @@
+{% if session.error is not null %}
+<div class="alert alert-danger" role="alert">
+    {{session.error}}
+</div>
+{% endif %}
+{% if session.success is not null %}
+<div class="alert alert-success" role="alert">
+    {{session.success}}
+</div>
+{% endif %}

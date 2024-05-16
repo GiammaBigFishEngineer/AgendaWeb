@@ -35,12 +35,11 @@ class MailUtils {
         $this->mail->Port       = EnvLoader::getValue("SMTP_PORT");                 //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
         //* Disabilito le funzioni dei certificiati/login per usare MailDev
-
-        if(EnvLoader::getValue("APP_DEBUG") == false){
-            $this->mail->SMTPAuth = true;                                       //Enable SMTP authentication
-            $this->mail->Username   = EnvLoader::getValue("SMTP_USER");         //SMTP username
-            $this->mail->Password   = EnvLoader::getValue("SMTP_PASSWORD");     //SMTP password
-            $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;           //Enable implicit TLS encryption
+        if(EnvLoader::getValue("APP_DEBUG") == false && !empty(EnvLoader::getValue("SMTP_USER"))){
+            $this->mail->SMTPAuth = true;                                           //Enable SMTP authentication
+            $this->mail->Username   = EnvLoader::getValue("SMTP_USER");             //SMTP username
+            $this->mail->Password   = EnvLoader::getValue("SMTP_PASSWORD");         //SMTP password
+            $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;               //Enable implicit TLS encryption
         }
 
 
