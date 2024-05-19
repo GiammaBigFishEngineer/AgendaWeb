@@ -48,7 +48,7 @@ async function fillEvent(id) {
 function submitEventForm(event){
     event.preventDefault();
     var form = event.target.closest('.form');//document.getElementById('form-prenotazione');
-    
+
     var formData = new FormData(form);
     var newEvent = formData.get('id') === null || formData.get('id') === '';
 
@@ -73,9 +73,9 @@ function submitEventForm(event){
             } else {
                 fillEvent(id);
             }
-            
+
             calendar.refetchEvents();
-        }, 100);        
+        }, 100);
     })
     .catch(function (error) {
         console.log(error);
@@ -95,7 +95,7 @@ function submitEventForm(event){
 
 function deleteEvent(event) {
     event.preventDefault();
-    
+
     form = event.target.closest(".form");
     var formData = new FormData(form);
 
@@ -106,12 +106,12 @@ function deleteEvent(event) {
         console.log(response);
 
         setTimeout(() => {
-        
+
         calendar.refetchEvents()
         hideModal(form.closest(".modal").id);
         clearForm(document.getElementById('form-prenotazione-summary'));
         toggleViewButton(false)
-        
+
         }, 100);
     })
     .catch(function (error) {
@@ -196,7 +196,7 @@ function setupCaparre(data) {
 
     // Check if the inputObject is an object and has the expected structure
     if (typeof data === 'object' && data !== null) {
-        vals = Object.values(data) 
+        vals = Object.values(data)
     } else {
         vals = data;
     }
@@ -204,7 +204,7 @@ function setupCaparre(data) {
     console.log(vals);
 
     const caparreDiv = document.querySelector('[name="caparre"]');
-    
+
     //Clear the list first
     caparreDiv.innerHTML = null;
 
@@ -278,7 +278,7 @@ function onChangeCaparre(){
             // const lastCaparra = caparreInputs[caparreInputs.length].value;
             var emptyInput = fromHTML(generateCaparraElement(lastEl + 1));
 
-            caparreDiv.appendChild(emptyInput);   
+            caparreDiv.appendChild(emptyInput);
         }}
     });
 }
@@ -369,7 +369,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Note editors
     var editors = ["#viewEventModal #note-editor-2", "#newEventModal #note-editor"]
-    
+
     editors.forEach(editor => {
         setupQuill(editor)
     });
@@ -382,7 +382,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 shorthand: true,
                 dateFormat: "F Y",
                 altFormat: "F Y",
-                theme: "light" 
+                theme: "light"
             })
         ]
     });
@@ -425,9 +425,9 @@ function setDraggableModals(){
     var modals = document.querySelectorAll('.draggable-modal');
     modals.forEach(function(modal){
         modal.addEventListener('hidden.bs.modal', function () {
-            var modal_dialogue = modal.querySelector('.modal-dialog');
+            var modal_dialogue = this.querySelector('.modal-dialog');
 
-            modal_dialogue.style.transform = '';    
+            modal_dialogue.style.transform = '';
             modal_dialogue.setAttribute('data-x', 0);
             modal_dialogue.setAttribute('data-y', 0);
         });

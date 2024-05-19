@@ -74,10 +74,10 @@
                 fillEvent(info.event.id);
             },
             events: function(info, successCallback, failureCallback) {
-                showLoader() 
-            
+                showLoader()
+
                 var url = "/api/events/date/"
-                
+
                 var params = {
                     start: info.start,
                     end: info.end,
@@ -86,7 +86,7 @@
                 var headers = {
                     'X-Requested-With': 'XMLHttpRequest',
                 }
-                
+
                 axios.get( url, { params, headers } ).then(function (res){
                     successCallback(
                         Array.prototype.slice.call(res.data).map(
@@ -104,7 +104,7 @@
                                         highestContrast = contrast;
                                     }
                                 }
-                                
+
                                 return {
                                     id: eventEl.id,
                                     title: eventEl.title,
@@ -114,7 +114,7 @@
                                     // borderColor: eventEl.color,
                                     borderColor: "#ffffff",
                                     textColor: curTextColor.toString({format: "hex"}),
-                                } 
+                                }
                             }
                         )
                     )
@@ -187,7 +187,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-lg-3 mb-3 d-lg-block" id="summaryColumn">
             <div style="background-color:#EEEEEE; padding: 4px; border-radius: 10px; overflow: hidden;">
                 <h3>Prenotazione</h3>
@@ -215,7 +215,7 @@
             label: "Files",
             outsideForm: true,
         },
-    ] 
+    ]
 %}
 
 {# Modify Event Modal #}
@@ -227,7 +227,7 @@
                 <h5 class="modal-title user-select-none">Prenotazione</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            
+
             <div class="modal-body">
                 <x-forms.prenotazione-tabs id="form-prenotazione" type="form" tabs={{tabs}}>
                     <x-slot name="general_tab">
@@ -276,7 +276,7 @@
             </div>
             <div class="modal-body">
                 <x-forms.prenotazione id="form-new-prenotazione" type="form" new>
-                    <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Conferma">    
+                    <input type="submit" class="btn btn-primary float-end" onclick="submitEventForm(event)" value="Conferma">
                 </x-forms.prenotazione>
             </div>
         </div>
@@ -298,6 +298,14 @@ document.addEventListener("DOMContentLoaded", function() {
         disableForm(form, 2);
     });
 
+    var modals = document.querySelectorAll('.modal')
+    for (let modal of modals) {
+        modal.addEventListener('shown.bs.modal', event => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+    }
 });
+
+
 </script>
 {% endblock content %}
