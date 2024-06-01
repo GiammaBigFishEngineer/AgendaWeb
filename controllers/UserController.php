@@ -32,7 +32,7 @@ class UserController extends BaseController
         $data = $_GET;
 
         if (isset($data["token"])) {
-            $reset = PasswordResetModel::where(["token" => $data["token"]])[0];
+            $reset = PasswordResetModel::where(["token" => $data["token"], "approved" => 1])[0];
         }
 
         if(!isset($reset) || !$reset) {
@@ -51,20 +51,20 @@ class UserController extends BaseController
         $password_reset = PasswordResetModel::where(["token" => $data["token"]])[0];
         if(!isset($password_reset) || !$password_reset) {
             $_SESSION['error'] = "Link di reset non valido";
-            header("Location: /");
+            return header("Location: /");
         }
 
         if($password_reset->approved != 1) {
             $_SESSION['error'] = "Link di reset non valido";
-            header("Location: /");
+            return header("Location: /");
         }
 
         if(strlen($data['new_password']) < 5) {
             $_SESSION['error'] = "Password troppo corta";
             if(isset($_SERVER['HTTP_REFERER'])){
-                header("Location: " . $_SERVER['HTTP_REFERER']);
+                return header("Location: " . $_SERVER['HTTP_REFERER']);
             } else {
-                header("Location: /");
+                return header("Location: /");
             }
         }
 
