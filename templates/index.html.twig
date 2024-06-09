@@ -83,6 +83,11 @@
             /* .fc-scroller.fc-scroller-liquid {
                 overflow-y: hidden !important;
             } */
+
+            /* Workaround for fc scrollbar hiding numbers on the right */
+            .fc .fc-daygrid-day-top {
+                flex-direction: row;
+            }
  
             .fc-day-grid-container.fc-scroller {
                 height: auto!important;
