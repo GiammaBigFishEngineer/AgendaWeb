@@ -228,6 +228,7 @@ function generateCaparraElement(index, item = null){
         console.log(item.type)
         console.log("Bonifico", item.type == "bonifico")
         console.log("Contanti", item.type == "contanti")
+        console.log("POS", item.type == "pos")
         console.log("----")
 
         return `<div class="d-flex mb-1">
@@ -238,6 +239,7 @@ function generateCaparraElement(index, item = null){
             <select class="form-select mx-1" name="caparra-type-${index}">
                 <option` + (item.type != 'bonifico' ? "selected" : "") + ` value="bonifico">Bonifico</option>
                 <option` + (item.type != 'contanti' ? "selected" : "") + ` value="contanti">Contanti</option>
+                <option` + (item.type != 'pos' ? "selected" : "") + ` value="pos">POS</option>
             </select>
         </div>`
     } else {
@@ -250,6 +252,7 @@ function generateCaparraElement(index, item = null){
                 <option value="" selected disabled>Tipo Pagamento</option>
                 <option value="bonifico">Bonifico</option>
                 <option value="contanti">Contanti</option>
+                <option value="pos">POS</option>
             </select>
         </div>`
     }
