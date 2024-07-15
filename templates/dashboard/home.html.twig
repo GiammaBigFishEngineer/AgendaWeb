@@ -27,7 +27,7 @@
 </script>
 
 {# Fullcalendar #}
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
 
 {# Color Contrast #}
 <script src="https://colorjs.io/dist/color.global.js"></script>
@@ -73,6 +73,7 @@
             eventClick: function(info) {
                 fillEvent(info.event.id);
             },
+            contentHeight: "auto",
             events: function(info, successCallback, failureCallback) {
                 showLoader()
 

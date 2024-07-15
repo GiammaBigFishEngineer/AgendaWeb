@@ -54,32 +54,10 @@
                 -moz-appearance: textfield;
             }
 
-            ::-webkit-scrollbar {
-                width: 12px;
-            }
-
-            ::-webkit-scrollbar-thumb {
-                background-color: #004CC5;
-            }
-
-            * {
-                scrollbar-width: thick;
-                scrollbar-color: #004CC5;
-            }
-
             .fc-event {
                 border-width: 1px;
                 border-style: solid;
             }
-
-            .fc ::-webkit-scrollbar {
-                width: auto;
-            }
-
-            .fc ::-webkit-scrollbar-thumb {
-                background-color: inherit;
-            }
-
             /* .fc-scroller.fc-scroller-liquid {
                 overflow-y: hidden !important;
             } */
@@ -88,10 +66,15 @@
             .fc .fc-daygrid-day-top {
                 flex-direction: row;
             }
- 
+
             .fc-day-grid-container.fc-scroller {
                 height: auto!important;
                 overflow-y: auto;
+            }
+
+            .fc-daygrid-day-number {
+                color: #111111!important;
+                font-weight: 500;
             }
 
             .draggable-modal {
