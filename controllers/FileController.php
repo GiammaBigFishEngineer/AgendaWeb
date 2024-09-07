@@ -75,7 +75,7 @@ class FileController
         }
 
         $this->checkFileRequirements($file);
-        
+
         if ($file && $data) {
             if (!isset($data['id'])) {
                 $data['id'] = $fileInfo->getHighestId() + 1;
@@ -109,7 +109,7 @@ class FileController
             case 'k':
                 $val *= 1024;
         }
-    
+
         return $val;
     }
 
@@ -120,9 +120,9 @@ class FileController
         try {
             $file = $fileInfo->searchFileById($id);
             $fileInfo->deleteFile($id);
-            unlink($this->objPath . $file["file"]);    
+            unlink($this->objPath . $file["file"]);
         } catch (Exception $e) {
-            
+
         }
 
     }
@@ -135,7 +135,7 @@ class FileController
             // throw new \Exception("Number of files exceeds the limit");
             throw new \Exception("Numero dei file supera il limite");
         }
-    
+
         // Check the size of the file
         if (isset($this->limits['max_size'])) {
             if ($file['size'] > $this->limits['max_size']) {
@@ -255,6 +255,10 @@ class FileInfo
         $fileInfo = $this->readFileInfo();
         $files = [];
         foreach ($fileInfo as $file) {
+            if(!file_exists($this->folderPath . $file['file'])) {
+                continue;
+            }
+
             $files[] = [
                 'id' => $file['id'],
                 'name' => $file['name'],
