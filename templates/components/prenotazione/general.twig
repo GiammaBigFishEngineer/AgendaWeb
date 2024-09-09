@@ -74,7 +74,7 @@
                     </p>
                 </div>
             {% endfor %}
-            <img class="select-box__icon" src="https://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
+            <img class="select-box__icon" src="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ "/templates/img/down-arrow.svg" }}" alt="Arrow Icon" aria-hidden="true"/>
         </div>
         <ul class="select-box__list">
             {% for option in colore_options %}
@@ -108,7 +108,7 @@
 <div class="mb-3">
     <label for="note" class="form-label fw-bold text-wrap">Note:</label>
     <input type="hidden" name="note"></input>
-    
+
     <div id="note-editor-2" style="min-height: 20em;">
     </div>
 

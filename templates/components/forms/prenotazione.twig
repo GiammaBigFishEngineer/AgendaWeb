@@ -5,7 +5,7 @@
     <div class="col border-end mx-1">
         <{{type}} {{ attributes.merge({ class: 'prenotazione form' }) }}  id="{{id}}">
             <input type="hidden" name="id">
-            
+
             <div class="mb-3">
                 <label for="titolo" class="form-label fw-bold text-wrap">Titolo:</label>
                 <input type="text" class="form-control" id="titolo" name="titolo" aria-describedby="titleHelp">
@@ -21,7 +21,7 @@
                     <input type="date" class="form-control" name="partenza">
                 </div>
             </div>
-            
+
             {% if short is not defined %}
             <div class="mb-3">
                 <label for="capo_gruppo" class="form-label fw-bold text-wrap">Capo Gruppo:</label>
@@ -50,7 +50,7 @@
             <div class="mb-3">
                 <label for="note" class="form-label fw-bold text-wrap">Note:</label>
                 <input type="hidden" name="note"></input>
-    
+
                 <div id="note-editor" style="min-height: 20em;">
                 </div>
             </div>
@@ -89,7 +89,7 @@
                                 </p>
                             </div>
                         {% endfor %}
-                        <img class="select-box__icon" src="https://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true"/>
+                        <img class="select-box__icon" src="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl ~ "/templates/img/down-arrow.svg" }}" alt="Arrow Icon" aria-hidden="true"/>
                     </div>
                     <ul class="select-box__list">
                         {% for option in colore_options %}
@@ -118,7 +118,7 @@
                 {# <div class="mb-2">
                     <label for="termine_saldo" class="form-label fw-bold text-wrap">Caparre:</label>
                     <div name="caparre" type="input-list" data-type="json" fill-function="setupCaparre">
-                        
+
 
                     </div>
                 </div> #}
